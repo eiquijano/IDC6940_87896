@@ -1,0 +1,20 @@
+project:
+  type: book
+  
+book:
+  title: "Capstone Data Science"
+  author: "Edwin I. Quijano"
+  date: "September 2 2025"
+  chapters:
+    - index.qmd
+    - references.qmd
+    
+bibliography: bibliography.bib
+
+format:
+  html:
+    theme: cosmo
+  pdf:
+    documentclass: scrreprt
+    
+editor: visual
