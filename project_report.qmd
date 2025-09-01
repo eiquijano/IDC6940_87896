@@ -1,0 +1,85 @@
+---
+title: Example article for AAAI 2026 using Quarto
+author:
+  - name: Max Mustermann
+    orcid: 0000-0000-0000-0000
+    email: name@example.com
+    affiliation:
+      - ref: 1
+  - name: Author Two
+    orcid: 0000-0000-0000-0001
+    email: name2@example.com
+    affiliation:
+      - ref: 1
+affiliations:
+  - id: 1
+    name: Association for the Advancement of Artificial Intelligence
+    department: Data Science and its Applications
+    address: 1101 Pennsylvania Ave, NW Suite 300
+    city: Washington
+    country: USA
+    state: DC
+    url: https://aaai.org
+abstract: |
+  AAAI creates proceedings, working notes, and technical reports directly from electronic source furnished by the authors. To ensure that all papers in the publication have a uniform appearance, authors must adhere to the following instructions.
+links:
+  - name: Code
+    url: https://aaai.org/example/code
+  - name: Datasets
+    url: https://aaai.org/example/datasets
+format:
+  aaai2026-pdf:
+    keep-tex: true  
+    number-sections: true
+    number-depth: 2
+    header-includes:
+      - \usepackage{amsmath,amssymb}
+      - \usepackage{booktabs}
+  aaai2026-html: default
+keywords: [template, demo]
+bibliography: bibliography.bib  
+---
+
+# Introduction {#sec-intro}
+
+This is an example document demonstrating the AAAI-2026 format for Quarto.
+
+## Tables
+
+You can create tables like so.
+
+| Column 1 | Column 2 | Column 3 |
+|----------|----------|----------|
+| Data 1   | Data 2   | Data 3   |
+| Data 4   | Data 5   | Data 6   |
+
+: Example table for AAAI 2026
+
+## Figures
+
+You can include figures.
+
+![This is a figure with a caption](https://upload.wikimedia.org/wikipedia/commons/f/ff/AAAI_Conference.png){width=100%}
+
+## Related work
+
+This is a citation: @CameronTrivedi2013
+
+# Preparing an Anonymous Submission
+
+- Anonymous submissions must not include the author names and affiliations. Write "Anonymous Submission" as the "sole author" and leave the affiliations empty.
+- The PDF document's metadata should be cleared with a metadata-cleaning tool before submitting it. This is to prevent leaked information from revealing your identity.
+- References must be anonymized whenever the reader can infer that they are to the authors' previous work.
+- AAAI's copyright notice should not be included as a footer in the first page.
+- Only the PDF version is required at this stage. No source versions will be requested, nor any copyright transfer form.
+- You may be required to include a reproducibility checklist or prepare it separately. Check the conference's instructions in their website.
+
+You can remove the copyright notice and ensure that your names aren't shown by including
+```yaml
+draft: false
+```
+when rendering the document in Quarto.
+
+# Conclusion
+
+See the official [AAAI web site](https://aaai.org) for more information on the submission process and requirements.
