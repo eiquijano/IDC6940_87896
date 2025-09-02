@@ -7,7 +7,19 @@ book:
   date: "September 2 2025"
   chapters:
     - index.qmd
-    - references.qmd
+    - 01_cover.qmd
+    - 02_table_contents.qmd
+    - 03_introduction.qmd
+    - 04_objectives.qmd
+    - 05_data_description.qmd
+    - 06_data_processing.qmd
+    - 07_exploring_data_analysis.qmd
+    - 08_model_development.qmd
+    - 09_evaluation_metrics.qmd
+    - 10_optimization_strategies.qmd
+    - 11_results.qmd
+    - 12_conclusion.qmd
+    - 13_references.qmd
     
 bibliography: bibliography.bib
 

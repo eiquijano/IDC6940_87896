@@ -1,6 +1,6 @@
 ---
 title: "index"
-format: html
+format: pdf
 editor: visual
 ---
 
