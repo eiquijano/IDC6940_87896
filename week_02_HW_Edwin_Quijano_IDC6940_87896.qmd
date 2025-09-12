@@ -1,0 +1,136 @@
+---
+title-block-banner: true
+title-block-style: default
+title: "University of West Florida"
+subtitle: "Capston Project In Data Science IDC-6940 | Professor Dr. Shusen Pu"
+date: 09/08/2025
+date-format: full
+author: "Edwin Quijano"
+description: "Literature Review"
+format: pdf
+editor: visual
+toc: false
+---
+
+#### 
+
+## Literature Review
+
+# Enhancing Supply Chain Agility and Sustainability through Machine Learning: Optimization Techniques for Logistics and Inventory Management.
+
+
+The article "Enhancing Supply Chain Agility and Sustainability through Machine Learning: Optimization Techniques for Logistics and Inventory Management" by Pasupuleti et al. (2024) discusses the urgent need for solutions to the complex challenges facing the supply chain industry. Issues such as demand uncertainty, unexpected events, and increasing operational complexity hinder the efficiency and sustainability of logistical networks. Traditional optimization methods, which rely on static models and predefined rules, are inadequate to meet these new realities. Furthermore, conventional analytical tools, including classical statistical models based on historical data, are limited in their ability to respond quickly to these challenges. This situation highlights a critical gap in the literature: the necessity for more dynamic, scalable, and predictive approaches to decision-making in logistics environments.
+
+This research aims to address precisely that deficiency by adopting advanced machine learning (ML) techniques as an alternative. Its goal is to optimize key supply chain operations, such as demand forecasting, inventory management, transportation planning, and risk monitoring.
+The significance of this research lies in the fact that it not only proposes novel methods but also validates them empirically using real data from multiple industrial sources. The study demonstrates how ML can transform supply chains into more agile, sustainable, and data-driven systems, aligning with strategic goals of operational efficiency and global sustainability.
+
+### Research Objectives and Contributions
+The paper's core objective is to develop and evaluate a range of ML models to enhance supply chain agility and sustainability. Specifically, it aims to:
+
+1.	Improve demand forecasting accuracy.
+
+2.	Optimize transportation and routing.
+
+3.	Enhance inventory management.
+
+4.	Integrate structured and unstructured data sources.
+
+5.	Demonstrate real-world applicability of ML methods in volatile environments.
+
+This research distinguishes itself by taking a comprehensive approach to understanding supply chain challenges. Instead of focusing on a single aspect, such as demand forecasting, the study examines the potential of machine learning across various supply chain functions. It employs a diverse range of techniques, from classical regression to deep learning and reinforcement learning, and utilizes real-world datasets that represent the complexity and variety of modern supply chains.
+
+### Methodology
+Pasupuleti et al. adopt a sophisticated, multimodel approach that includes both supervised and unsupervised learning techniques, as well as deep learning and reinforcement learning methods. Each method is selected for its unique strengths in handling specific supply chain challenges:
+
+**Supervised Learning**
+
+•	Linear Regression, Elastic Net, Ridge, Lasso: Used in baseline demand forecasting.
+
+•	Gradient Boosted Trees: For feature selection and performance benchmarking.
+
+•	LSTM (Long Short-Term Memory): Captures temporal dependencies in sales and demand data.
+
+**Unsupervised Learning**
+
+•	K-Means Clustering: Segments of customers and products based on demand patterns.
+
+•	DBSCAN (Density-Based Spatial Clustering of Applications with Noise): Identifies hidden risk clusters and anomalies.
+
+**Deep Learning**
+
+•	Convolutional Neural Networks (CNNs): Analyze route maps and traffic data to improve transportation planning.
+
+**Reinforcement Learning**
+
+•	Q-Learning and Actor-Critic Models: Dynamically adjust inventory reorder policies and simulate production scheduling.
+
+Integrating structured data such as sales transactions and inventory levels with unstructured data like social media posts, news articles, and traffic alerts creates a multimodal approach to predictive modeling. This combination allows models to identify disruptions earlier and respond to changes more effectively.
+
+### Key Findings
+The study demonstrates that ML models significantly outperform traditional forecasting and inventory management techniques. Key performance improvements include:
+
+- 15% Increase in Forecasting Accuracy: LSTM models captured seasonality and non-linear trends better than ARIMA or ETS.
+
+- 10% Reduction in Stock Imbalances: Reinforcement learning helped optimize inventory levels by learning from dynamic environments.
+
+- 95% Order Fulfillment Accuracy: ML models could predict delivery timelines with higher precision.
+
+The application of CNNs for transportation optimization yielded improved route planning, while DBSCAN facilitated the early detection of risk factors that were not visible through traditional methods. These results underline the practical value of ML in addressing the dual objectives of agility (responding to change) and sustainability (maintaining operational efficiency with minimal waste).
+
+### Innovative Aspects
+Several features distinguish this research from existing literature:
+
+**Breadth of Scope:** The study evaluates ML applications across multiple supply chain components—not just forecasting or inventory, but also transportation, risk management, and production scheduling.
+
+**Real-World Data Integration:** Unlike theoretical models, the ML approaches are tested on datasets that reflect actual business complexity.
+
+**Fusion of Unstructured Data:** By integrating social media, news feeds, and traffic alerts, the models provide more context-aware predictions.
+Advanced Clustering for Risk Detection: DBSCAN was used not just for segmentation but to identify irregularities and potential disruptions in operations.
+
+**Deep Reinforcement Learning:** The use of actor–critic and Q-learning algorithms enables adaptive inventory policies that evolve with market conditions.
+Implications for Practice and Strategy
+
+**The strategic implications of this research are far-reaching:**
+Resilience: Supply chains become more responsive to disruptions, minimizing delays and shortages.
+
+**Customer Satisfaction:** Better forecasts and delivery accuracy lead to improved service levels.
+
+**Cost Efficiency:** Reduced overstock and under stock situations translate into lower holding and shortage costs.
+
+**Sustainability:** Improved planning leads to less waste, fewer emergency shipments, and better use of resources.
+Relation to Existing Literature
+
+This study builds upon and extends prior research in several important ways:
+
+- Confirms findings from Mahraz et al. (2022) and Abolghasemi et al. (2020) that ML improves forecasting under volatility.
+
+-	Validates the claims of Bertolini et al. (2021) about the practical applications of ML in industrial settings.
+
+-	Adds to the work of Yang et al. (2023) by demonstrating the use of clustering algorithms like DBSCAN for resilience.
+
+
+
+### Relevance to Capstone Project
+This research is highly relevant to projects focused on intelligent inventory optimization. In particular, it provides strong empirical support for the use of deep learning (LSTM) and reinforcement learning (Q-learning) to improve forecasting and inventory policies. The reported improvements in forecasting accuracy and inventory balance directly align with objectives common in supply chain optimization initiatives.
+
+For example, the capstone project using the Global Product Inventory Dataset 2025 can adopt:
+
+-	Gradient Boosted Trees for feature engineering and model benchmarking.
+
+-	LSTM for capturing seasonal demand trends and adjusting forecasts dynamically.
+
+-	Reinforcement Learning to simulate inventory control policies under varying demand and supply conditions.
+
+- Multimodal Data Integration (e.g., promotional calendars, social trends) to reflect real-world complexity.
+    
+The inclusion of performance metrics beyond statistical accuracy such as delivery success rate and cost savings advantages that can be replicated or adapted in other applied projects.
+
+### Conclusion
+Pasupuleti et al. (2024) make a compelling case for machine learning as a transformative force in supply chain management. Their research bridges the gap between academic exploration and practical implementation by demonstrating that ML techniques, when applied with rigor and strategic intent, can significantly improve forecasting, inventory control, and transportation planning.
+By going beyond traditional models and integrating structured and unstructured data, the study exemplifies what agile, sustainable, and data-driven supply chains could look like. It sets a high bar for future research and serves as a valuable blueprint for practitioners aiming to modernize their supply chain systems.
+
+\newpage
+
+### References
+
+Pasupuleti V., Thuraka B., Kodete C. S., & Malisetty S. (2024). Enhancing Supply Chain Agility and Sustainability through Machine Learning: Optimization Techniques for Logistics and Inventory Management. Logistics, 8(3), 73. 10.3390/logistics8030073

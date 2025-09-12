@@ -14,19 +14,25 @@ toc: false
 
 #### 1. (2 points) Introduce yourself and meet your classmates: Please upload/insert a screenshot here.
 
-### 2. (2 points) Join the course Discord channel. Please upload/insert a screenshot here.
+![Introduction](introduction.png){width=70%}
+{{< pagebreak >}}
 
-3. (2 points) List a tentative topic or method that you’re interested in exploring during this course. You\
-have the flexibility to change it up until week 5.\
+#### 2. (2 points) Join the course Discord channel. Please upload/insert a screenshot here.
 
-4. (5 points) Form a team with no more than 4 members. List your teammates’ names in the homework.\
-You can adjust your team anytime before week 5.\
+![Discord](discord.png){width=70%}
 
-5. (5 points) Please review and study the following two methods for presenting your progress and research\
-report:\
+#### 3. (2 points) List a tentative topic or method that you’re interested in exploring during this course. You have the flexibility to change it up until week 5.
 
-1. Write your report on Overleaf. You can copy or download the template from: https://www.\
-overleaf.com/read/tgrddxgwrhst#ff33cc.\
-2. Write your report on GitHub. The template is available here: https://github.com/capstone4ds/\
-capstone4ds_template. You can find instructions for setting up the website on the same page.\
-Please indicate which method you will use for this course.
+Topic: Inventory forecasting and Optimization with Deep Learning
+
+#### 4. (5 points) Form a team with no more than 4 members. List your teammates’ names in the homework. You can adjust your team anytime before week 5.
+
+    - Alan Urena
+    - Akhil Bommareddy
+
+#### 5. (5 points) Please review and study the following two methods for presenting your progress and research report:
+
+This project will be presented using the GitHub method. The following link can be used to access the GitHub project.
+
+<https://github.com/eiquijano/IDC6940_87896>
+
