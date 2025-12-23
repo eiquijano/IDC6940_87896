@@ -1,0 +1,9 @@
+% Add author email(s) right below the title block
+\begin{center}
+\vspace{0.5cm}
+{\large \ttfamily
+$for(author)$
+  $if(author.email)$$author.email$$endif$$sep$ \quad\textbullet\quad
+$endfor$
+}
+\end{center}

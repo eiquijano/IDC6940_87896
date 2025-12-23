@@ -1,0 +1,31 @@
+---
+format: pdf
+editor: source
+---
+
+# Chapter 1 {.unnumbered}
+
+## Introduction
+
+a)  What is the dataset about?
+
+The dataset is a product-level inventory dataset containing 10,000 records, each representing an individual product listed in a retail or e-commerce environment. It includes core metadata such as Product ID, Product Name, Product Category, Product Description, Price, Warranty Period, and Product Dimensions. Additional attributes—like Color/Size Variations, Product Ratings, SKU, and Product Tags—indicate that this dataset is meant to capture both commercial and consumer-facing characteristics of each item. Together, these variables offer a detailed view of the items a business manages and sells.
+
+From an operations and supply-chain perspective, the dataset includes several fields relevant to inventory management and forecasting, such as Stock Quantity and In Stock Date. It also contains Manufacturing Date and Expiration Date, which may be especially important for perishable or regulated goods. The presence of empty or unused columns (e.g., “Unnamed: 5”, “Unnamed: 15”) suggests the dataset may have been exported from a larger system. Overall, the data provides a rich foundation for analyzing product performance, categorizing inventory, and building forecasting models such as ARIMA for predicting inventory space or stock levels over time.
+
+
+b)  The source of the dataset and the variables in dataset.
+
+
+
+c)  State at least two goals of your analysis.
+
+Using ARIMA, SARIMA, and MARIMA forecasts, the company can predict future inventory levels by month and category, allowing operations to:
+
+-   Plan warehouse layout changes ahead of demand spikes
+
+-   Reduce space bottlenecks during peak stocking periods
+
+-   Improve cost efficiency by preventing over-allocation of storage areas
+
+d)  Literature review related to previous analysis of the similar goals you stated in part (c)

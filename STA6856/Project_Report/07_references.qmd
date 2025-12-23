@@ -1,0 +1,24 @@
+---
+format: pdf
+editor: visual
+---
+
+# References {.unnumbered}
+
+**da Silva Tavares Bastos, Andreia.** (2024). *Machine learning in digital retail: Demand forecasting for inventory management in a sportswear company* (Order No. 31790125). Available from ProQuest Dissertations & Theses A&I; ProQuest Dissertations & Theses Global. (3144033974). Retrieved from https://login.ezproxy.lib.uwf.edu/login?url=https://www.proquest.com/dissertations-theses/machine-learning-digital-retail-demand/docview/3144033974/se-2
+
+**Eibe Frank, Mark A. Hall, Christopher J. Pal, & Ian H. Witten.** (2016). Data Mining, 4th Edition. Morgan Kaufmann.
+
+**Geron, A.** (2019). Hands-on machine learning with Scikit-Learn, Keras, and TensorFlow : concepts, tools, and techniques to build intelligent systems (Second edition.). O’Reilly.
+
+**Han, J., Pei, J., & Tong, H.** (2023). Data Mining Concepts and Techniques (4th Edition) (Fourth edition). Elsevier.
+
+**Nisar, Keyush** (Global Prod). *Global Product Inventory Dataset 2025*. Publication_Title, Retrieved March 15, 2025 from <https://www.kaggle.com/datasets/keyushnisar/global-product-inventory-dataset-2025>
+
+**Pasupuleti V., Thuraka B., Kodete C. S., & Malisetty S.** (2024). Enhancing Supply Chain Agility and Sustainability through Machine Learning: Optimization Techniques for Logistics and Inventory Management. *Logistics*, 8(3), 73. 10.3390/logistics8030073
+
+**Polo-Triana S., Gutierrez J. C., & Leon-Becerra J.** (2024). Integration of machine learning in the supply chain for decision making: A systematic literature review. *Journal of Industrial Engineering and Management*, 17(2), 344. 10.3926/jiem.6403
+
+**R P., Kumar S., Bhardwaj S., Agrahari N., Pandey S., & Harakannanavar S. S**. (2023). E-Commerce Inventory Management System Using Machine Learning Approach. *2023 International Conference on Data Science and Network Security (ICDSNS)*, Volume(Issue), 1-7. 10.1109/icdsns58469.2023.10245500
+
+**Sathish T., SaiKumar D., Patil S., Saravanan R., Giri J., & Aly A. A**. (2024). Exponential smoothing method against the gradient boosting machine learning algorithm-based model for materials forecasting to minimize inventory. *AIP Advances*, 14(6), Page. 10.1063/5.0208491

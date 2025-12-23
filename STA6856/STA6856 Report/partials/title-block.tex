@@ -1,0 +1,32 @@
+\begin{titlepage}
+\centering
+
+{\Huge \bfseries $title$ \par}
+$if(subtitle)$
+  \vspace{0.5cm}
+  {\Large $subtitle$ \par}
+$endif$
+
+\vspace{1cm}
+{\Large
+$for(author)$$author.name$$sep$ \\ $endfor$
+\par}
+
+$if(author)$
+  \vspace{0.3cm}
+  {\large \ttfamily
+  $for(author)$$if(author.email)$$author.email$$endif$$sep$ \quad\textbullet\quad $endfor$
+  \par}
+$endif$
+
+$if(cover-image)$
+  \vfill
+  \includegraphics[width=0.4\linewidth]{$cover-image$}
+$endif$
+
+$if(date)$
+  \vfill
+  {\large $date$ \par}
+$endif$
+
+\end{titlepage}

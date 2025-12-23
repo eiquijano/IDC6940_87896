@@ -1,0 +1,235 @@
+---
+format: pdf
+editor: visual
+---
+
+# Appendix I {.unnumbered}
+
+## R Code
+
+``` r
+
+raw <- read_csv("products_02.csv", col_types = cols(stock_xfer_date = col_date(format = "%m/%d/%Y")))
+
+head(raw,5)
+```
+
+``` r
+raw <- raw %>%
+  mutate(
+    stock_xfer_date = ymd(stock_xfer_date),
+    prod_dimensions = str_remove(prod_dimensions, " cm")
+  ) %>%
+  separate(prod_dimensions, into = c("len_cm", "width_cm", "height_cm"), sep = "x", convert = TRUE)
+
+# Compute volume per item in cm3, convert to m3, compute space used
+raw <- raw %>%
+  mutate(
+    volume_cm3 = len_cm * width_cm * height_cm,
+    space_used_cm3 = volume_cm3 * stock_qty,
+    space_used_m3 = space_used_cm3 / 1e6
+  )
+```
+
+``` r
+
+daily_totals <- raw %>%
+  group_by(stock_xfer_date) %>%
+  summarise(
+    total_stock_qty = sum(stock_qty),
+    total_space_m3 = sum(space_used_m3)
+  ) %>%
+  arrange(stock_xfer_date)
+
+# Create ts object daily frequency assumed to be 365
+ts_total_space <- ts(daily_totals$total_space_m3, frequency = 7)   # weekly seasonality
+ts_total_stock <- ts(daily_totals$total_stock_qty, frequency = 7)
+
+
+ggplot(daily_totals, aes(stock_xfer_date, total_space_m3)) +
+geom_line(color = "steelblue") +
+labs(title="Total Space Used (m³) Over Time",
+x="Date", y="Space Used (m³)") +
+theme_minimal()
+```
+
+``` r
+cat_daily <- raw %>%
+  group_by(stock_xfer_date, prod_cat) %>%
+  summarise(space_m3 = sum(space_used_m3), stock_qty = sum(stock_qty)) %>%
+  ungroup()
+
+cat_space_wide <- cat_daily %>%
+  dplyr::select(stock_xfer_date, prod_cat, space_m3) %>%
+  tidyr::pivot_wider(names_from = prod_cat, values_from = space_m3) %>%
+  dplyr::arrange(stock_xfer_date)
+
+
+# Replace NA (missing categories on some days)
+cat_space_wide[is.na(cat_space_wide)] <- 0
+
+cat("Category-wide dataset created:\n")
+print(head(cat_space_wide))
+print(dim(cat_space_wide))
+
+# Convert to time series matrix
+ts_cat_space <- ts(cat_space_wide[, -1], frequency = 7)
+
+cat("ts_cat_space created successfully:\n")
+print(dim(ts_cat_space))
+print(colnames(ts_cat_space))
+
+
+
+ggplot(cat_daily, aes(stock_xfer_date, space_m3, color=prod_cat)) +
+geom_line() +
+theme_minimal() +
+labs(title="Daily Space Used by Category (m³)", x="Date", y="Space (m³)")
+```
+
+``` r
+
+adf_total <- adf.test(ts_total_space)
+adf_total
+
+# First difference
+adf_total_diff <- adf.test(diff(ts_total_space))
+adf_total_diff
+
+# Category ADF tests
+apply(ts_cat_space, 2, adf.test)
+```
+
+``` r
+# Convert daily total space to time series object
+ts_space <- ts(daily_totals$total_space_m3, frequency = 7)
+
+# ACF plot
+acf(ts_space,
+    main = "ACF of Total Space Used (m³)",
+    lag.max = 30)
+
+# PACF plot
+pacf(ts_space,
+     main = "PACF of Total Space Used (m³)",
+     lag.max = 30)
+```
+
+``` r
+{# Convert to time series object}
+ts_space <- ts(daily_totals$total_space_m3, frequency = 7)
+
+# First difference
+ts_space_diff <- diff(ts_space)
+```
+
+``` r
+
+acf(ts_space_diff,
+    main = "ACF of Differenced Total Space Used (m³)",
+    lag.max = 30)
+```
+
+``` r
+
+pacf(ts_space_diff,
+     main = "PACF of Differenced Total Space Used (m³)",
+     lag.max = 30)
+```
+
+``` r
+# Convert to time series
+ts_space <- ts(daily_totals$total_space_m3, frequency = 7)
+
+# Fit SARIMA model
+sarima_model <- Arima(
+  ts_space,
+  order = c(0, 1, 2),
+  seasonal = list(order = c(2, 0, 2), period = 7)
+)
+
+summary(sarima_model)
+```
+
+``` r
+# Extract fitted values
+fitted_vals <- fitted(sarima_model)
+
+plot(ts_space,
+     main = "Actual vs Fitted Values – SARIMA Model",
+     ylab = "Space Used (m³)",
+     xlab = "Time",
+     col = "black")
+
+lines(fitted_vals, col = "blue", lwd = 2)
+
+legend("topright",
+       legend = c("Actual", "Fitted"),
+       col = c("black", "blue"),
+       lty = 1,
+       cex = 0.8)
+```
+
+``` r
+sarima_resid <- residuals(sarima_model)
+
+par(mfrow = c(1, 2))
+acf(sarima_resid,
+    main = "ACF of SARIMA Residuals",
+    lag.max = 30)
+
+pacf(sarima_resid,
+     main = "PACF of SARIMA Residuals",
+     lag.max = 30)
+par(mfrow = c(1, 1))
+```
+
+``` r
+sarima_fc <- forecast(sarima_model, h = 30)
+```
+
+``` r
+plot(sarima_fc, main = "SARIMA 30-Day Forecast of Total Space Used", ylab = "Space Used (m³)", xlab = "Time")
+```
+
+``` r
+
+ts_space <- ts(daily_totals$total_space_m3, frequency = 7)
+
+arima_model <- Arima(
+  ts_space,
+  order = c(0, 1, 2)
+)
+
+summary(arima_model)
+```
+
+``` r
+
+sarima_model <- Arima(
+  ts_space,
+  order = c(0, 1, 2),
+  seasonal = list(order = c(2, 0, 2), period = 7)
+)
+
+summary(sarima_model)
+```
+
+``` r
+
+ets_model <- ets(ts_space)
+
+summary(ets_model)
+```
+
+``` r
+
+var_model <- VAR(ts_cat_space_diff, p = 2, type = "const")
+summary(var_model_1)
+```
+
+``` r
+accuracy(arima_model)
+accuracy(sarima_model)
+accuracy(ets_model)
+```

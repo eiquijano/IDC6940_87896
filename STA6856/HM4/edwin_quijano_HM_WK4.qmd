@@ -1,0 +1,166 @@
+---
+title-block-banner: true
+title-block-style: default
+title: "University of West Florida"
+subtitle: "Time Series Analysis STA 6856 | Professor Dr.Tharindu De Alwis "
+date: 10/31/2025
+date-format: full
+author: "Edwin Quijano"
+description: "Assignment 4"
+format: pdf
+editor: visual
+toc: false
+execute:
+  echo: TRUE
+  warning: FALSE
+  message: FALSE
+---
+
+### 1. (5 points) Suppose $Y_t$ follows ARIMA(3,2,4) model. What ARIMA(p,d,q) mode is followed by the second differences $Z_t=\nabla2Y_t=Y_t−2Y_{t−1} + Y_{t−2}$?
+
+
+ARIMA (3,2,4) by definition:
+
+$$\phi (B)(1-B)^2Y_t=\theta(B)\varepsilon_t$$
+
+$$\text{Order 3 : }\theta (B)=1-\theta_1B-\theta_2B^2-\theta_3B^3$$
+$$\text{Order 4 : }\phi (B)=1+\phi_1B+\phi_2B^2+\phi_3B^3+\phi_4B^4$$
+$$\phi(B)Z_t=\theta(B)\varepsilon_t$$
+
+
+$$Z_t=\text{ARIMA}(3,0,4)$$
+$$\text{therfore this is an }\text{ARMA}(3,4)\text{ model}$$
+
+\pagebreak
+
+### 2. (10 points) Consider the oil filter sales data in the TSA R package. The data are in the file named oilfilters.
+
+a. Fit an AR(1) model to this series. Is the estimate of the φ parameter significantly different from zero statistically?
+
+*Oil Filters Dataset*
+```{r}
+library(TSA)
+data(oilfilters)
+oilfilters
+
+model <- arima(oilfilters, order = c(1,0,0))
+(model)
+```
+$H_0: \phi=0$ Not significantly different from zero
+
+$H_1: \phi \neq0$ Significantly different from zero
+
+
+
+$$t= {\phi \over SE\ \phi } = t= {0.3115 \over 0.1368 }=2.28$$
+
+
+Therfore, ($t$ = 2.28 > 1.96) we reject $H_0$
+
+**AR(1) coefficient ($\phi$ = 0.3115) is statistically significantly different from zero at the 5% level.**
+
+
+b. Display the sample ACF of the residuals from the AR(1) fitted model. Comment on the display.
+
+
+
+```{r}
+
+res <- residuals(model)
+
+acf(res, main = "Sample ACF of Residuals from AR(1) Model",
+    col = "blue", lwd = 2, )
+
+
+```
+
+**The AR(1) coefficient $\phi=0.3115$ is significant, and the residuals show no strong correlation, confirming the model is statistically appropriate.**
+
+\pagebreak
+
+### 3. (20 points) The data file named robot contains a time series obtained from an industrial robot. The robot was put through a sequence of maneuvers, and the distance from a desired ending point was recorded in inches. This was repeated 324 times to form the time series. Compare the fits of an AR(1) model and an ARIMA(0,1,1) model for these data in terms of the diagnostic tests. Note: The data set is available in the TSA R package.
+
+
+```{r}
+library(TSA)
+data(robot)
+plot(robot, main = "Robot Distance Time Series", ylab = "Distance (inches)")
+```
+\pagebreak
+
+**Model 1 AR(1)**
+
+```{r}
+model_ar1 <- arima(robot, order = c(1,0,0))
+(model_ar1)
+```
+**Model 2 ARIMA(0,1,1)**
+
+
+```{r}
+model_ma1 <- arima(robot, order = c(0,1,1))
+(model_ma1)
+```
+
+| Model            | logLik      | AIC          | σ² (Residual variance) | Interpretation |
+| ---------------- | ----------- | ------------ | ---------------------- | -------------- |
+| **AR(1)**        | 1475.54     | **−2947.08** | 6.482e−06              | Good fit       |
+| **ARIMA(0,1,1)** | **1480.95** | **−2959.90** | **6.069e−06**          | Better fit     |
+
+
+- AIC is lower for ARIMA(0,1,1) (−2959.9 vs. −2947.08) → better for model.
+
+- Log likelihood is higher for ARIMA(0,1,1) better explanation of data.
+
+- Residual variance (σ²) is smaller for ARIMA(0,1,1) → more precise model.
+
+**Conclusion: ARIMA(0,1,1) fits the data better statistically.**
+
+
+
+
+\pagebreak
+
+### 4. (10 points) The data file named deere3 contains 57 consecutive values from a complex machine tool process at Deere & Co. The values given are deviations from a target value in units of ten millionths of an inch. The process employs a control mechanism that resets some of the parameters of the machine tool depending on the magnitude of deviation from target of the last item produced.
+
+```{r}
+library(TSA)
+data(deere3)
+
+plot(deere3, main = "Deere3 Machine Tool Deviations",
+     ylab = "Deviation (ten-millionths of an inch)", xlab = "Observation")
+```
+**a. Using an AR(1) model for this series, forecast the next ten values.**
+
+
+**AR(1) model**
+
+```{r}
+model_ar1 <- arima(deere3, order = c(1, 0, 0))
+(model_ar1)
+
+```
+
+```{r}
+forecast_values <- predict(model_ar1, n.ahead = 10)
+forecast_values
+
+```
+
+
+
+**b. Plot the series, the forecasts, and 95% forecast limits, and interpret the results. Note: The data set is available in the TSA R package.**
+
+```{r}
+ts.plot(deere3, forecast_values$pred,
+        col = c("black", "blue"), lty = c(1,2),
+        main = "AR(1) Deere3 Series Forecast",
+        ylab = "Deviation")
+
+upper <- forecast_values$pred + 1.96 * forecast_values$se
+lower <- forecast_values$pred - 1.96 * forecast_values$se
+lines(58:67, upper, col = "red", lty = 5)
+lines(58:67, lower, col = "red", lty = 5)
+```
+
+**The 95% forecast interval widens slightly as the horizon increases, representing growing uncertainty. Since deviations are small and mean-centered, the process appears stable and well-regulated. Overall, the results indicate that the machine tool process is well-controlled and self-correcting. Short-term deviations occur but are quickly minimize, and the process consistently returns to its target value over time.**

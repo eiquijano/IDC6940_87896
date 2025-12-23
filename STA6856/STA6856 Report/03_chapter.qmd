@@ -1,0 +1,78 @@
+---
+format: pdf
+editor: visual
+---
+
+# Chapter III {.unnumbered}
+
+## Secondary Analysis: Fitting ARIMA, SARIMA and VAR models
+
+### ARIMA Model
+
+![](images/clipboard-952280241.png){width="500"}
+
+SARIMA Model
+
+![](images/clipboard-2140727831.png){width="500"}
+
+### ETS Model
+
+![](images/clipboard-3337290968.png){width="500"}
+
+![](images/clipboard-435095985.png){width="600"}
+
+### VAR Model
+
+![](images/clipboard-298414658.png){width="500"}
+
+![](images/clipboard-15238594.png){width="500"}
+
+![](images/clipboard-782972242.png){width="500"}
+
+![](images/clipboard-304873349.png){width="500"}
+
+![](images/clipboard-3670009370.png){width="500"}
+
+The VAR model is applied to category-level daily space usage, where each category (Headphones, Laptops, Monitors, and Smartphones) forms one equation in the system. After transforming the series to achieve stationarity through first differencing, a VAR(2) model is estimated, meaning that current changes in space usage for each category depend on the previous two days of changes across all categories. This structure allows the model to capture cross-category dependencies, such as how increases in Smartphone space usage may coincide with or precede changes in other categories. The VAR model not only produces category-specific forecasts but also enables deeper analysis through impulse response functions and variance decomposition, offering insights into how shocks in one category propagate through the entire system.
+
+Four different time series models were tested to forecast warehouse space usage: ARIMA, SARIMA, ETS and VAR. The ARIMA model was able to capture general trends but struggled to account for the weekly patterns in the data. The ETS model performed better by adapting to changes in level and seasonality, but it still left some recurring patterns unexplained. Overall, the SARIMA model performed the best because it explicitly captured the weekly cycles in space usage and produced the most accurate and stable forecasts.
+
+Diagnostic checks showed that the SARIMA model left no meaningful patterns in the residuals, meaning it explained the data well. It also had lower error measures compared to the other models, especially during high-demand periods. For these reasons, SARIMA is selected as the most reliable model for forecasting future warehouse space needs and supporting better planning decisions.
+
+### Mathematical Equation of the Selected SARIMA Model
+
+$y_t$ denotes the daily total space used in $m^3$
+
+first differencing $d=1$ is define by \$ \Delta y_t=y_t-y_t-1\$
+
+SARIMA Model = SARIMA$(0,1,2)(2,0,2)7$
+
+$$(1 - \Phi_1 L^{7} - \Phi_2 L^{14}) , (1 - L) y_t = (1 + \theta_1 L + \theta_2 L^{2}) (1 + \Theta_1 L^{7} + \Theta_2 L^{14}) , \varepsilon_t$$
+
+$y_t$ denotes the daily total space used (m$^3$) at time $t$.
+
+$L$ is the lag operator such that $L^k y_t = y_{t-k}$.
+
+$(1 - L)$ represents first differencing, ensuring stationarity.
+
+$\theta_1, \theta_2$ are non-seasonal moving average parameters.
+
+$\Phi_1, \Phi_2$ are seasonal autoregressive parameters.
+
+$\Theta_1, \Theta_2$ are seasonal moving average parameters.
+
+$\varepsilon_t$ is a white-noise error term with mean zero and constant variance.
+
+The seasonal period is 7, corresponding to weekly seasonality.
+
+The model explains changes in daily space usage based on:
+
+-   Random shocks from the previous two days (MA(2)).
+
+-   Weekly and bi-weekly seasonal effects (lags 7 and 14)
+
+-   First differencing removes long-term trends.
+
+-   Seasonal terms capture recurring weekly warehouse activity patterns.
+
+The selected $SARIMA(0,1,2)(2,0,2)7$​ model represents daily changes in warehouse space usage as a function of recent random shocks and weekly seasonal effects, with all remaining unexplained variation captured by white-noise errors.

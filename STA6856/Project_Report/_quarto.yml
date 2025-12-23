@@ -1,0 +1,37 @@
+project:
+  type: book
+  
+book:
+  title: "Intelligent Inventory"
+  subtitle: "A Time Series Analysis and LSTM Optimization"
+
+  author:
+   - "Edwin I. Quijano"
+   - "eiq1@students.uwf.edu"
+   
+  container-author: "eiq1@students.uwf.edu"
+ 
+  date: "December 3 2025"
+  date-format: full
+
+  chapters:
+    - index.qmd
+    - 02_chapter.qmd
+    - 07_references.qmd
+    - 05_appendix_1.qmd
+
+
+    
+bibliography: bibliography.bib
+
+
+highlight-style: pygments
+format:
+  html:
+    theme: morph
+  pdf:
+    toc: true
+    documentclass: scrreprt
+   
+  epub:
+    cover-image: cover_img.png

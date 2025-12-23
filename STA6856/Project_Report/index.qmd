@@ -1,0 +1,38 @@
+---
+format: pdf
+editor: source
+execute: 
+  echo: false
+---
+
+# Introduction
+
+This project uses forecasting models to improve warehouse space planning and reduce inventory volatility caused by global supply chain challenges.
+
+Inventory management has become a critical foundation for small businesses worldwide due to supply chain disruptions caused by the globalization of e-commerce, geopolitical conflicts in the Middle East and Asia, the COVID-19 pandemic, and the most significant disruptor to date: the escalating tariff war between the United States and China.
+
+In light of ongoing global supply chain disruptions, the intelligent inventory optimization capstone project was proposed to understand better and mitigate inventory volatility in our operations. The project aims to implement existing forecasting methods, including time-series analysis and long short-term memory (LSTM), to improve our ability to predict warehousing space usage, which can serve as a basis for developing more advanced models that could incorporate external regressors.
+
+As manufacturers of skincare products, we rely heavily on a global supply chain. We work with more than 10 suppliers of raw materials worldwide. These materials are shipped to our laboratory in South America, where products are manufactured and prepared for export to the United States.
+
+During the COVID-19 pandemic, many of our suppliers were unable to deliver the raw materials we ordered. In several cases, shipments arrived 8 to 10 months late, creating a domino effect that disrupted our clients' production schedules. Not only did raw material costs increase dramatically, but shipping products also became nearly impossible.
+
+By the last quarter of 2022, operations began to recover, and inventory movement improved. However, this recovery brought a new challenge: our warehouse space quickly became insufficient due to increased demand. Over the next two years, inventories stabilized. Still, at the beginning of 2025, a wave of disruptions emerged, this time driven by political policies and tariff increases that significantly raised import costs to the United States, especially for goods from China.
+
+These high import costs threatened our profitability and forced us to consider alternative operational strategies. The most viable solution was to reroute shipments directly from China to South America, where products could be manufactured and packaged, then exported to the United States. While this approach reduced tariff exposure, it introduced a new constraint: limited warehouse space in South America due to infrastructure restrictions and real estate costs.
+
+This challenge is the driving force behind our project. Our goal is to forecast warehouse space requirements during periods of high volatility to plan effectively, reduce operational risk, and maintain supply chain continuity.
+
+## Objective
+
+**To understand warehouse space utilization:**
+
+The primary objective of this analysis is to understand warehouse space utilization, identify factors contributing to storage demand, and assess readiness during seasons with high fluctuations. The goal is to uncover patterns that can help us identify inefficiencies and capacity constraints.
+
+**To analyze inventory movement:**
+
+The second objective is to analyze daily stock transfer to compare inventory movement across all product categories. Each category has unique characteristics related to volume, demand, and seasonality. Evaluating these movements, the analysis could identify operational bottlenecks and provide better insights for decision-making on allocation, warehouse layout, and inventory prioritization.
+
+**To develop forecasting models for strategic planning:**
+
+The final objective is to develop a forecasting model that can accurately predict warehouse space requirements. The approach is to use SARIMA to forecast warehouse space, and the VAR model to forecast space usage by product category. then, compare the results with the LSTM model to verify for accuracy. The forecasting results will allow stakeholders to anticipate disruptions or operational instability proactively.

@@ -1,0 +1,14 @@
+---
+format: pdf
+editor: visual
+---
+
+# Chapter 3 {.unnumbered}
+
+In this chapter, you will perform in-depth analysis of the data. You could do the followings:
+
+a.  Fit at least three models to the dataset.
+
+b.  Compare the performance the fitted models using model diagnostic techniques.
+
+c.  What is mathematical equation of the suitable model you chose

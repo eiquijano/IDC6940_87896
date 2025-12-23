@@ -3,3 +3,7 @@ title: "Cover"
 format: pdf
 editor: visual
 ---
+
+Hello world
+
+![An elepha_nt](cover_img.png)

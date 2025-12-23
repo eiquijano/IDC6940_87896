@@ -1,0 +1,315 @@
+---
+title-block-banner: true
+title-block-style: default
+title: "University of West Florida"
+subtitle: "Time Series Analysis STA 6856 | Professor Dr.Tharindu De Alwis "
+date: 11/14/2025
+date-format: full
+author: "Edwin Quijano"
+description: "Assignment 5"
+format: pdf
+editor: visual
+toc: false
+execute:
+  echo: TRUE
+  warning: FALSE
+  message: FALSE
+---
+
+### 1. (10 points) Consider the following time series model
+
+$$Y_t = 0.25Y_{t−1} − 0.25Y_{t−12} + 0.0625Y_{t−13} + e_t − 0.1e_{t−1} + 0.1e_{t−12} − 0.01e_{t−13}$$ $$Y_t - 0.25Y_{t−1} + 0.25Y_{t−12} - 0.0625Y_{t−13} =e_t − 0.1e_{t−1} + 0.1e_{t−12} − 0.01e_{t−13}$$ **AR Side**
+
+$$Y_t - 0.25Y_{t−1} + 0.25Y_{t−12} - 0.0625Y_{t−13} = (1−0.25B+0.25B^{12}−0.0625B^{13})Y_t$$
+
+**MA Side** $$e_t − 0.1e_{t−1} + 0.1e_{t−12} − 0.01e_{t−13}=(1−0.1B+0.1B^{12}−0.01B^{13})e_t $$ **Model**
+
+$$(1−0.25B+0.25B^{12}−0.0625B^{13})Y_t = (1−0.1B+0.1B^{12}−0.01B^{13})e_t$$
+
+**(a) Recognize the model as ARIM A(p, d, q) × (P, D, Q) model. That is, what are the values for p, d, q, P, D, and Q.**
+
+$$ARIMA(1,0,1) \times (1,0,1)_{12}$$
+
+**(b) Write down all the coefficient values using the standard notation. That is,** $\Phi$’s, $\Theta$’s, $\phi$’s, and $\theta$’s.
+
+$\Phi=0.25$ \newline $\Theta=-0.25$ \newline $\phi=-0.1$\newline $\theta=0.1$\newline
+
+\pagebreak
+
+### 2. (10 points) An AR model has AR characteristic polynomial
+
+$$(1−1.6x+0.7x^2)(1−0.8x^{12})$$
+
+**(a) Is th model stationary?**
+
+$$(1 − 1.6x + 0.7x^2)(1 − 0.8x^{12})=0$$
+$$0.7X^2-1.6X+1=0$$
+$$X={1.6 \pm \sqrt{-1.6^2-4(0.7)(1)}\over2(0.7)}={1.6\pm \sqrt{2.56-2.8}\over1.4}={1.6\pm \sqrt{-0.24}\over1.4}={1.6\pm0.49i\over1.4}\approx 1.143\pm0.35i $$
+*Modulus*
+
+$$|x|=\sqrt{1.143^2+0.35^2}\approx \sqrt{1.306+0.123}\approx{\sqrt{1.43}}\approx 1.20 > 1$$
+
+$$1−0.8x^{12}=0$$
+$$0.8x12=1$$
+$${x12=}{1\over0.8}=1.25$$
+$$|x|=1.25^{1\over12}\approx1.02 >1$$
+
+*All roots have moudlus tha lie outside the unit circle, therefore the the model is stationary*
+
+
+**(b) Identify the model as a certain seasonal ARIMA model**
+
+
+$$(1−1.6B+0.7B^2)(1−0.8B^{12}).$$
+ARIMA $ (2,0.0) x (1,0,0)_{12}$
+
+$\phi_1=1.6$ \newline 
+$\phi_2=-0.7$ \newline
+$\Phi=-0.8$
+ 
+
+\pagebreak
+
+### 3. (20 points) Consider electricity dataset in the TSA R package that contains the monthly electricity generated in the United States.
+
+**(a) Construct the sample ACF of the data, is the data stationary?**
+
+```{r}
+library(TSA)
+data(electricity)
+```
+
+
+```{r}
+plot(electricity, main = "Monthly Electricity Generated in the U.S.")
+```
+
+
+```{r}
+acf(electricity, main = "ACF of Electricity Series")
+```
+The raw electricity series is nonstationary, the time series plot shows:
+
+- upward trend over time
+
+- changing variance
+
+- strong repeating seasonal cycles
+
+- Shows large spikes at lag 12, 24 indicating yearly seasonality
+
+- It contains trend and seasonality.
+
+*Therefore, the data is not stationary.*
+
+
+
+
+**(b) Calculate the sample ACF of the first difference of the logged transformed series. Is the seasonality visible in this display? If so, what is your seasonal component?**
+
+
+```{r}
+log.elec <- log(electricity)
+d.log.elec <- diff(log.elec)
+```
+
+
+```{r}
+acf(d.log.elec, main = "Electricity ACF of First-Differenced Log ")
+```
+The ACF now shows reduction in long-lag autocorrelation bUT still large spikes at lag 12, 24
+
+The seasonality is still visible
+
+Seasonal componenet is 𝑠=12  (monthly data → yearly seasonal cycle)
+
+
+
+**(c) Plot the time series of seasonal difference, use s = 12 or the s value you have suggested in part (b), and first difference of the logged series. Does a stationary model seem appropriate now?**
+
+```{r}
+seas.diff <- diff(log.elec, lag = 12)
+plot(seas.diff, main = "Electricity Seasonally Differenced Log ")
+```
+
+
+```{r}
+double.diff <- diff(seas.diff)
+plot(double.diff, main = "Electricity First + Seasonal Differenced Log ")
+```
+
+Yes, a stationary model seems appropriate after log transform, seasonal difference and first difference
+This means the needed ARIMA model is likely:
+
+ARIMA$(p,1,q) \times (P,1,Q)_{12}$
+
+
+
+
+**(d) Display the sample ACF of the series after a seasonal difference and a first difference have been taken of the logged series in part (d). What model(s) might you consider for the electricity series?**
+
+
+```{r}
+acf(double.diff, main="ACF of Fully Differenced Series")
+
+```
+
+
+```{r}
+pacf(double.diff, main="PACF of Fully Differenced Series")
+
+```
+
+Possible models to consider SARIMA $(0,1,1)\times(0,1,1)_{12}$
+
+
+\pagebreak
+
+
+### 4. (20 points) Consider the air passenger miles time series in TSA R package. The file is named air miles.
+
+**(a) Create the sample ACF and PACF for the airmiles data. Suggest the candidate values for p, d, q, P, D, Q, and s.**
+
+```{r}
+library(TSA)
+
+data(airmiles)
+plot(airmiles, main="Airmiles Time Series")
+```
+
+
+```{r}
+acf(airmiles, main="ACF of Airmiles")
+```
+
+
+```{r}
+pacf(airmiles, main="PACF of Airmiles")
+```
+The airmiles series Clearly shows:
+
+nonstationary (upward trend)
+
+No obvious seasonality (annual data, not monthly)
+
+So s=1 (no seasonal cycle)
+
+ACF:
+
+spike at lag 1,  MA(1)
+
+PACF:
+
+spike at lag 1 → AR(1)
+
+Candidate values:
+
+$$p = 0 \text{ or } 1, d = 1, q = 1,$$
+$$ P = 0, D = 0, Q = 0,$$
+$$s = 1 \text{(no seasonality)}$$
+
+
+\pagebreak
+**(b) Fit ARIM A(0, 1, 1) × (0, 1, 0)12 and assess its adequacy.**
+
+```{r}
+model_b <- arima(airmiles, order = c(0,1,1),
+                 seasonal = list(order=c(0,1,0), period=12))
+```
+
+
+```{r}
+model_b
+```
+
+
+```
+tsdiag(model_b)
+```
+
+Model fits, but the adequacy of the model is limited since the series is annual and therefore does not contain a meaningful seasonal component at period 12. As a result, the imposed seasonal differencing does not correspond to godd structure in the data and may lead to unnecessary overdifferencing. Residuals show some patterns thus the model is not optimal.
+
+**(c) Use auto.arima{forecast} to select the parameters p, d, q, P, D, Q, and s.**
+
+
+
+```{r}
+
+library(forecast)
+
+auto_model <- auto.arima(airmiles)
+auto_model
+
+
+```
+Nonseasonal part ARIMA(1,0,1):
+
+p=1: AR(1) term Coefficient: 0.9021, showing strong year-to-year persistence.
+
+d=0: No nonseasonal differencing was applied.
+
+q=1: MA(1) term Coefficient: –0.3742
+
+Seasonal part (0,1,1)[12]:
+
+P=0: no seasonal AR component
+
+D=1: seasonal differencing 
+
+Q=1: seasonal MA(1)
+
+Coefficient: –0.6902 
+
+s=12: season length = 12
+
+
+
+
+**(d) Refit the selected model from part(c) using arima{stats} function and assess its adequacy.**
+
+```{r}
+model_d <- arima(airmiles, order=c(1,0,1))
+```
+
+
+```{r}
+model_d
+```
+
+
+```
+tsdiag(model_d)
+```
+
+```
+
+Box.test(residuals(model_d), lag=24, type="Ljung")
+```
+
+
+
+```{r}
+acf(residuals(model_d))
+
+```
+
+
+all coefficients statistically significant, residuals behave like white noise and no remaining autocorrelation in the residuals
+Ljung–Box p-values > 0.05
+
+ACF/PACF of residuals show no pattern
+
+The model is adequate and provides good fit for the airmiles data.
+
+
+
+
+
+
+
+
+
+
+
+
+

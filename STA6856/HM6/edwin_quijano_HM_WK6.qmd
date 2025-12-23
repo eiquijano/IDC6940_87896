@@ -1,0 +1,515 @@
+---
+title-block-banner: true
+title-block-style: default
+title: "University of West Florida"
+subtitle: "Time Series Analysis STA 6856 | Professor Dr.Tharindu De Alwis "
+date: 11/22/2025
+date-format: full
+author: "Edwin Quijano"
+description: "Assignment 6"
+format: pdf
+editor: visual
+toc: false
+execute:
+  echo: TRUE
+  warning: FALSE
+  message: FALSE
+---
+
+
+# Create rainfall index
+
+***1.  (25 points) The Egyptian Ministry of Water Resources is concerned about the variability from year-to- year in the annual water flow of the Nile River. They believe that much of the variation is driven by rainfall in upstream regions, which is not directly observed in the Nile dataset, but can be approximated using satellite-based rainfall indices.***
+
+To evaluate this idea, a hydrology researcher constructs the following dataset:
+
+$Y_t$ = annual Nile river flow (built-in R dataset Nile)
+
+$X_t$ = rainfall index for the same year, created as:
+
+
+```{r}
+data(Nile)
+rain <- jitter(Nile, amount = 30)
+```
+```{r}
+head(Nile,10)
+```
+
+
+(higher values indicate more rainfall in upstream areas) The Ministry wants to determine whether including the rainfall index improves forecasting of future water availability.
+
+**(a) (3 points) Plot the annual Nile flow series. Interpret the plot.**
+
+```{r}
+plot(Nile,
+     type = "l",
+     main = "Annual Nile River Flow (1871–1970)",
+     col ="cyan3",
+     ylab = "Flow",
+     xlab = "Year",
+     lwd = 2)
+grid()
+
+abline(v = 1898, col = "red", lwd = 2, lty = 2)
+
+legend("topright",
+       legend = c("Nile Flow", "Level Shift (~1898)"),
+       col = c("cyan3", "red"),
+       lwd = 2,
+       lty = c(1, 2))
+
+```
+The graph indicates a drop in the late 1890s, this is a level shift, and a strong indication of a non-stationary.
+
+
+\newpage
+
+***(b) (4 points) Is the Nile flow series stationary? Use plots and appropriate test for your argument.***
+
+```{r}
+
+acf_obj <- acf(Nile, plot = FALSE)
+acf(Nile, main = "ACF of Nile Flow", lwd = 3)
+lines(1:10, acf_obj$acf[2:11], col = "red", lwd = 2, lty=2)
+text(x = 6, y = 0.7, "Slow decay → evidence of\nnon-stationarity", col = "red")
+
+
+
+```
+This slow decay pattern is characteristic level-shift non-stationarity, confirming that the Nile flow series is not stationary.
+
+
+```{r}
+library(tseries)
+
+adf_test <- adf.test(Nile)
+adf_test
+```
+Since the $p$-value > 0.05, we fail to reject the null that the series has a unit root.
+
+Evidence from the time-series plot (a clear level shift), the ACF plot (slow decay), and the ADF test (high p-value) all indicate that the Nile series is non-stationary.therefore, *the Nile series is NOT stationary*
+
+\newpage
+
+*(c) (5 points) Fit an ARIMAX model using the rainfall index $X_t$ as an external regressor. Write down the estimated ARIMA (p, d, q) structure and the estimated regression coefficient for rainfall.*
+
+```{r}
+library(forecast)
+
+rain <- jitter(Nile, amount = 30)
+fit_arimax <- auto.arima(Nile, xreg = rain)
+fit_arimax
+
+
+```
+```{r}
+
+plot(Nile,
+     type = "l",
+     main = "Nile Flow and Rainfall Index",
+     col ="cyan3",
+     ylab = "Flow",
+     xlab = "Year",
+     lwd = 2)
+grid()
+
+lines(rain, col = "black", lwd = .5, lty=2)
+
+legend("topright",
+       legend = c("Nile Flow", "Level Shift"),
+       col = c("cyan3", "black"),
+       lwd = 1,
+       lty = c(1, 2))
+
+
+```
+The estimated ARIMA structure, ARIMA(0,0,0), the rainfall index correlates with the Nile flow, therefore there is no autocorrelation to model.
+
+Regression Coefficient : $\beta$=0.9787, which indicates a strong positive linear relationship between rainfall and river flow.
+
+
+\newpage
+
+*(d) (5 points) Fit a pure ARIMA model with no exogenous variables. Compare with the ARIMAX model from part (c). Which model is preferred for forecasting, and why? *
+
+
+```{r}
+fit_arima <- auto.arima(Nile)
+fit_arima
+```
+
+```{r}
+AIC(fit_arima); BIC(fit_arima)
+AIC(fit_arimax); BIC(fit_arimax) 
+```
+ARIMAX with External regressor achieve a lower AIC/BIC and smaller residual variance than the pure ARIMA model. We need to point out that rainfall index is part of the Nile itself and should not be considered and exogenous variable.
+
+For forecasting purposes, pure ARIMA models could be used as a forecasting tool since it doesn't require rainfall values.
+
+
+
+
+\newpage
+
+*(e) (4 points) Interpret the rainfall coefficient. Does higher rainfall appear to increase Nile flow? Is the effect statistically significant? *
+
+The rainfall coefficient is estimated at 0.9787, indicating that a one-unit increase in the rainfall index is associated with about a one-unit increase in annual Nile flow.The higher rainfall leads to higher river flow. The effect is highly statistically significant (t ≈ 104), providing strong evidence that rainfall is an important predictor of Nile flow.
+
+
+
+
+
+\newpage
+
+*(f) (4 points) Based on residual diagnostics discuss whether including rainfall improves model adequacy. Should the Ministry use the ARIMAX model for forecasting next year’s Nile flow? Explain your reasoning.*
+
+
+```{r}
+checkresiduals(fit_arima)
+```
+```{r}
+
+checkresiduals(fit_arimax)
+
+```
+ARIMAX model with rainfall provides a better in-sample fit than the pure ARIMA mode, the residuals have lower variance and show weaker autocorrelation.
+For forecasting next year’s Nile flow, the Ministry would need future rainfall values. But Those are not known in advance, and the rainfall index cannot be use to forecast independently since it’s based on Nile itself. therfore, the Ministry should not use this ARIMAX model for forecasting next year’s Nile flow and instead rely on a pure ARIMA model or a model that uses genuinely forecastable exogenous variables.
+
+
+\newpage
+
+
+*2. (25 points) The following questions require analysis of the Canadian economic indicators: Gross Domestic Product (GDP), Interest rate (INT), Consumer Price Index (CPI), and Production (PRO). Please use the provided datasets to answers the followings.*
+
+
+```{r}
+library(tidyverse)
+library(lubridate)
+library(forecast)
+library(tseries)
+library(zoo) 
+```
+
+
+
+\newpage
+*(a) (2 points) Compute and interpret the Autocorrelation Function (ACF) and Partial Autocorrelation Function (PACF) for each time series. Assess the stationarity of each series based on these analyses.*
+
+
+
+```{r}
+GDP <- read.csv("CAN_GDP.csv")
+
+```
+
+
+```{r}
+GDP$TIME <- as.yearqtr(GDP$TIME, format = "%Y-Q%q")
+GDP$DATE <- as.Date(GDP$TIME)
+
+gdp_ts <- ts(GDP$Value, start = c(1991, 1), frequency = 4)
+
+```
+
+```{r}
+plot(gdp_ts,
+     main = "Canada GDP (Quarterly)",
+     ylab = "GDP Index",
+     xlab = "Year",
+     col = "blue",
+     lwd = 2)
+acf(gdp_ts, main = "ACF - Canadian economic indicators (GDP)")
+pacf(gdp_ts, main = "PACF - Canadian economic indicators (GDP)")
+```
+```{r}
+adf_gdp <- adf.test(gdp_ts)
+
+print(adf_gdp)
+```
+The ACF plot shows high and slowly decay autocorrelations sign of a non-stationary time series.
+
+A slow decay in ACF suggests that past values have long memory and the level of the series is drifting over time.
+
+The PACF shows A strong spike at lag 1. After lag 1, all other lags fall within the confidence interval.
+ 
+
+
+
+```{r}
+INT <- read.csv("CAN_INT.csv")
+```
+
+
+```{r}
+INT$TIME <- as.yearqtr(INT$TIME, format = "%Y-Q%q")
+INT$DATE <- as.Date(INT$TIME)
+
+int_ts <- ts(INT$Value, start = c(1991, 1), frequency = 4)
+
+```
+
+
+```{r}
+plot(int_ts,
+     main = "Canada INT (Quarterly)",
+     ylab = "INT Index",
+     xlab = "Year",
+     col = "blue",
+     lwd = 2)
+acf(int_ts, main = "ACF - Canadian economic indicators (INT)")
+pacf(int_ts, main = "PACF - Canadian economic indicators (INT)")
+```
+
+```{r}
+
+adf_int <- adf.test(int_ts)
+
+print(adf_int)
+
+```
+The ACF plot shows high first-lag autocorrelation and Slow, gradual decay across the next 15+ lags.
+The PACF plot shows a large spike at lag 1 and No significant spikes after lag 1 (lags fall inside the confidence bands)
+
+This is the classic pattern of a non-stationary time series, most commonly, the ACF clearly indicates non-stationarity.
+
+
+```{r}
+CPI <- read.csv("CAN_CPI.csv")
+```
+
+
+```{r}
+CPI$TIME <- as.yearqtr(CPI$TIME, format = "%Y-Q%q")
+CPI$DATE <- as.Date(CPI$TIME)
+
+cpi_ts <- ts(CPI$Value, start = c(1991, 1), frequency = 4)
+```
+
+
+```{r}
+plot(cpi_ts,
+     main = "Canada CPI (Quarterly)",
+     ylab = "CPI Index",
+     xlab = "Year",
+     col = "blue",
+     lwd = 2)
+acf(cpi_ts, main = "ACF - Canadian economic indicators (CPI)")
+pacf(cpi_ts, main = "PACF - Canadian economic indicators (CPI)")
+```
+
+
+```{r}
+adf_cpi <- adf.test(cpi_ts)
+
+print(adf_cpi)
+```
+The ACF plot for CPI shows high autocorrelation at lag 1, Moderately high at lag 2 and  persistent positive correlations 
+The pattern indicates The CPI series has a trend. The series is likely non-stationary,
+
+The PACF plot shows strong spike at lag 1 with Significant spike at lag 2. The spike at lag 5 may indicate seasonality. Strong spikes at lags 1 and 2 Indicates AR-type structure.
+
+ACF and PACF suggest non-stationary but ADF test shows a P value > 0.05, therefore, the series is stationary.
+
+
+
+```{r}
+PRO <- read.csv("CAN_PRO.csv")
+```
+
+
+```{r}
+PRO$TIME <- as.yearqtr(PRO$TIME, format = "%Y-Q%q")
+PRO$DATE <- as.Date(PRO$TIME)
+
+pro_ts <- ts(PRO$Value, start = c(1991, 1), frequency = 4)
+```
+
+
+```{r}
+plot(pro_ts,
+     main = "Canada PRO (Quarterly)",
+     ylab = "PRO Index",
+     xlab = "Year",
+     col = "blue",
+     lwd = 2)
+acf(pro_ts, main = "ACF - Canadian economic indicators (PRO)")
+pacf(pro_ts, main = "PACF - Canadian economic indicators (PRO)")
+```
+```{r}
+
+
+adf_pro <- adf.test(pro_ts)
+
+print(adf_pro)
+
+```
+The ACF plot shows high autocorrelation at lag 1 with slow, gradual decay across many lags and No sharp cut-off and 
+the ACF strongly suggests the series is non-stationary.
+
+The PACF plot shows A large spike at lag 1, a small spike at lag 2
+
+All remaining lags fall inside the confidence bands
+
+The Canadian Productivity Index PRO series is non-stationary.
+
+\newpage
+*(b) (3 points) For any non-stationary series, apply a log transformation, simple differencing, or a combination of both to achieve stationarity.*
+
+
+```{r}
+gdp_diff <- diff(gdp_ts)
+
+plot(gdp_diff,
+     main = "Canada GDP Diff",
+     ylab = "GDP Index",
+     xlab = "Year",
+     col = "blue",
+     lwd = 1)
+
+
+```
+
+```{r}
+int_diff <- diff(int_ts)
+
+plot(int_diff,
+     main = "Canada INT Diff",
+     ylab = "GDP Index",
+     xlab = "Year",
+     col = "blue",
+     lwd = 1)
+```
+
+```{r}
+cpi_diff <- diff(cpi_ts)
+
+plot(cpi_diff,
+     main = "Canada CPI Diff",
+     ylab = "CPI Index",
+     xlab = "Year",
+     col = "blue",
+     lwd = 1)
+```
+
+```{r}
+pro_diff <- diff(pro_ts)
+
+plot(pro_diff,
+     main = "Canada PRO Diff",
+     ylab = "PRO Index",
+     xlab = "Year",
+     col = "blue",
+     lwd = 1)
+```
+
+
+```{r}
+
+adf_gdp_diff <- adf.test(gdp_diff)
+adf_gdp_diff
+
+adf_int_diff <- adf.test(int_diff)
+adf_int_diff
+
+adf_cpi_diff <- adf.test(cpi_diff)
+adf_cpi_diff
+
+adf_pro_diff <- adf.test(pro_diff)
+adf_pro_diff
+```
+
+
+
+\newpage
+*(c) (2 points) Propose candidate orders for a VAR model for the four series.*
+
+
+```{r}
+library(vars)
+```
+
+
+```{r}
+
+
+df_all <- merge(
+  merge(
+    merge(GDP[, c("TIME","Value")], INT[, c("TIME","Value")], by="TIME"),
+    CPI[, c("TIME","Value")], by="TIME"
+  ),
+  PRO[, c("TIME","Value")], by="TIME"
+)
+
+names(df_all) <- c("TIME","GDP","INT","CPI","PRO")
+
+
+
+```
+```{r}
+ts_data <- ts(df_all[, -1], start = c(1991,1), frequency = 4)
+```
+
+```{r}
+ts_diff <- diff(ts_data)
+```
+
+```{r}
+var_selection <- VARselect(ts_diff, lag.max = 8, type = "const")
+```
+
+```{r}
+print(var_selection)
+
+```
+```{r}
+select.p=VARselect(ts_diff)
+select.p$selection
+```
+
+Candidate models VAR1 AND VAR2
+
+
+\newpage
+*(d) (3 points) Estimate VAR models for the data based on the order specified in part (c).*
+```{r}
+var1 <- VAR(ts_diff, p = 1, type = "const")
+var1
+
+
+```
+```{r}
+var2 <- VAR(ts_diff, p = 2, type = "const")
+var2
+```
+
+
+
+
+\newpage
+*(e) (5 points) Estimate AR models for each of the four series using the order specified in part (c).*
+
+```{r}
+arima(gdp_diff, order=c(1,0,0))
+arima(int_diff, order=c(1,0,0))
+arima(cpi_diff, order=c(1,0,0))
+arima(pro_diff, order=c(1,0,0))
+```
+
+
+
+
+
+\newpage
+*(f) (5 points) Evaluate the VAR and individual AR models by comparing their mean squared errors and the number of parameters.*
+
+
+
+
+
+
+
+\newpage
+*(g) (5 points) What model(s) do you recommend for this data?*
+
+

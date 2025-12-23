@@ -1,0 +1,43 @@
+% Custom title page inserted right after \begin{document}
+
+\begin{titlepage}
+\centering
+
+$if(title)$
+  {\Huge \bfseries $title$ \par}
+$endif$
+
+$if(subtitle)$
+  \vspace{0.5cm}
+  {\Large $subtitle$ \par}
+$endif$
+
+$if(author)$
+  \vspace{1cm}
+  {\Large
+    $for(author)$
+      $if(author.name)$$author.name$$endif$$sep$ \\ 
+    $endfor$
+  \par}
+$endif$
+
+$if(author)$
+  \vspace{0.3cm}
+  {\large \ttfamily
+    $for(author)$
+      $if(author.email)$$author.email$$endif$$sep$ \quad\textbullet\quad
+    $endfor$
+  \par}
+$endif$
+
+$if(cover-image)$
+  \vfill
+  \includegraphics[width=0.4\linewidth]{$cover-image$}
+$endif$
+
+$if(date)$
+  \vfill
+  {\large $date$ \par}
+$endif$
+
+\end{titlepage}

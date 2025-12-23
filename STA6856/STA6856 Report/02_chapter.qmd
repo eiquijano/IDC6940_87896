@@ -1,0 +1,62 @@
+---
+format: pdf
+editor: visual
+---
+
+# Chapter II {.unnumbered}
+
+## Preliminary Analysis
+
+Time Series Variable
+
+The time series variables were constructed by aggregating daily stock transfers and corresponding space usage across all products. The dataset spans 365 consecutive days with no missing observations, ensuring a complete daily time series. Summary statistics indicate substantial variability in both stock quantity and space utilization, supporting the use of time series forecasting models. Category-level summaries reveal differences in volatility and average space consumption, highlighting the importance of modeling across categories.
+
+![](images/clipboard-1117194159.png){width="400"}
+
+![](images/clipboard-3805015355.png){width="400"}
+
+The mean is higher than the median, which indicates a right-skewed distribution. Most days experience moderate stock movement, but a smaller number of high-volume days significantly increase the average. These peak days are operationally important because they place the greatest demand on warehouse resources.
+
+Similar to stock quantity, the mean space used is greater than the median, confirming a right-skewed distribution. While most days require between roughly 1.8 and 3.3 m³, there are occasional extreme days where space requirements more than double the typical daily level. These high-demand days represent potential capacity bottlenecks.
+
+![](images/clipboard-4116117801.png){width="400"}
+
+The boxplot compares the distribution of daily space usage in cubic meters across four product categories: Headphones, Laptops, Monitors, and Smartphones. Each box summarizes the median, interquartile range (IQR), and the presence of extreme values (outliers) for daily space consumption within each category.
+
+All four categories exhibit similar median values, indicating that on a typical day, each category consumes a comparable amount of warehouse space. Smartphones and Headphones show slightly higher medians than Laptops and Monitors, suggesting they tend to occupy marginally more space on an average day. However, the differences are modest, reinforcing the idea that overall space usage is relatively balanced across categories
+
+The interquartile ranges are broadly similar across categories, indicating comparable variability in daily space usage. Monitors and Smartphones show slightly wider IQRs, implying greater day-to-day variation in space requirements. This suggests these categories may be more sensitive to fluctuations in stock transfers or product mix, requiring more flexible space planning.
+
+All categories exhibit upper outliers, representing days with unusually high space usage. Smartphones display the largest number and highest magnitude of outliers, with some days approaching or exceeding 3 m³ of space usage. Headphones also show notable high-end outliers, while Laptops and Monitors exhibit fewer extreme values. These outliers highlight that peak space demand is driven by occasional surges rather than typical daily behavior.
+
+From an operational perspective, the results indicate that while average daily space usage is similar across categories, Smartphones, and Headphones, are more likely to generate peak space demand.
+
+![](images/clipboard-2641665319.png){width="350"}
+
+![](images/clipboard-4288199656.png){width="350"}
+
+The ACF of total space usage exhibits strong persistence and slow decay, indicating non-stationarity and justifying first differencing before ARIMA modeling.
+
+The PACF of total space usage shows significant dependence at the first few lags followed by a rapid cutoff, indicating short-term dependence and supporting the use of differencing rather than higher-order AR terms in the model.
+
+![](images/clipboard-3172083586.png){width="350"}
+
+![](images/clipboard-1611262544.png){width="350"}
+
+The ACF and PACF of the differenced total space series show rapid decay and significant MA-type behavior at early lags, confirming stationarity after first differencing and supporting the ARIMA(0,1,2) specification.
+
+![](images/clipboard-1897551343.png){width="500"}
+
+![](images/clipboard-2231922775.png){width="550"}
+
+![](images/clipboard-2264806372.png)
+
+The SARIMA model closely tracks historical space usage and produces stable forecasts that preserve the observed weekly seasonality. Residual diagnostics show no significant autocorrelation, indicating that the model adequately captures the underlying data-generating process.
+
+![](images/clipboard-3262520921.png){width="550"}
+
+The SARIMA diagnostic and forecast plots demonstrate that the model provides a strong and reliable representation of total warehouse space usage over time. The fitted versus actual plot shows that the model closely follows the observed data, and indicate that both underlying trend and the recurring weekly seasonal pattern are well captured, Also suggests that the SARIMA specification explains the systematic structure in the series rather than overfitting random noise while the residual plots and the ACF and PACF of the residuals show no significant remaining autocorrelation, confirming that the residuals behave like white noise and that the model has successfully extracted the meaningful temporal dependencies from the data.
+
+The forecast plot also demonstrates the practical value of the SARIMA model by projecting future space usage while preserving the observed seasonal dynamics and providing confidence intervals that quantify forecast uncertainty. The forecasts show stable, cyclical behavior consistent with historical patterns, indicating no evidence of explosive growth or structural instability in the short term. Together, these plots validate the SARIMA model as an appropriate and robust tool for short- to medium-term forecasting of warehouse space requirements, supporting proactive capacity planning and operational decision-making.
+
+In this analysis, the total space used time series was found to be non-stationary in its original level form, as evidenced by a slow decay in the ACF and results from the Augmented Dickey–Fuller test, which failed to reject the presence of a unit root. This indicates that the mean level of space usage changes over time. After applying first differencing, the series became stationary, with the ADF test strongly rejecting the unit root hypothesis and the ACF showing rapid decay. This transformation stabilized the mean and variance of the series, making it suitable for ARIMA/SARIMA modeling and ensuring that the estimated relationships reflect genuine temporal dependence rather than underlying trends.

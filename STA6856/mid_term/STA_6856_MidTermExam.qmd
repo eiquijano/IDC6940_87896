@@ -1,0 +1,342 @@
+---
+title-block-banner: true
+title-block-style: default
+title: "University of West Florida"
+subtitle: "STA 6856 Mid-Term Exam | Professor Dr.Tharindu De Alwis "
+date: 10/17/2025
+date-format: full
+author: "Edwin Quijano"
+description: "Assignment 2"
+format: pdf
+editor: visual
+toc: True
+execute:
+  echo: TRUE
+  warning: FALSE
+  message: FALSE
+---
+
+\pagebreak
+
+### *Solution 1a.*
+
+\noindent
+
+\rule{\linewidth}{1pt}
+
+$$Y_t=t+e_3$$
+
+#### Mean function
+
+$$\mu Y(t)=\mathbb {E}(Y_t)=\mathbb {E}(t+e_3)=t+\mathbb{E}(e_3)=t+0=t$$ $\mu$ is dependent on $t$
+
+#### Autocovariance
+
+For $s,t$ $$\gamma Y(s,t)=Cov(Y_s,Y_t)=Cov(s+e_3,t+e_3)=Cov(e_3,e_3)=Var(e_3)=1$$ therefore,
+
+$Var(Y_t)=1$ for every $t$
+
+$Cov(Y_t,Y_{t+h})=1$ for any lag $h$
+
+#### Stationary
+
+$\mu Y(t)=t$, mean and autocovarience dependent on the lag, process is not weakly stationary.
+
+Fails to be Strict Stationary.
+
+Process is *nonstationary*
+
+\pagebreak
+
+### Solution 1b.
+
+\noindent
+
+\rule{\linewidth}{1pt}
+
+#### Mean function
+
+$$Y_t=e_t e_{t-2}$$ $$\mu Y(t)=\mathbb{E}(Y_t)=\mathbb{E}(e_t)\mathbb{E}(e_{t-2})=0 \cdot 0=0 $$ $e_t$ and $e_{t-2}$ are independent
+
+#### Autocovarience function
+
+$$\mathbb{E}(Y_t)=\mathbb{E}(e_t \cdot e_{t-2})=\mathbb {E}(e_t) \cdot \mathbb{E}(e_{t-2})=0 \times0=0$$ $$\mu Y(t)=0$$ **Independence of** $e_t$
+
+$h=0$
+
+$$\gamma Y(0)=\mathbb {E}(e_te_{t-2}e_te_{t-2})=\mathbb {E}(e_t ^2e_{t-2} ^2)$$ $$\mathbb {E}(e_t ^2e_{t-2} ^2)=\mathbb{E}(e_t^2) \mathbb{E}(e_{t-2}^2)=1 \cdot1=1$$ thus, $$\gamma Y(0)=1$$
+
+$h=2$
+
+$$\gamma Y(2) = \mathbb{E}(e_t e_{t-2} e_{t+2} e_t) = \mathbb{E}(e_t^2 e_{t-2} e_{t+2})$$ $$\mathbb{E}(e_{t-2}) \, \mathbb{E}(e_{t+2}) = 0$$ thus, $$\gamma_Y(2) = 0$$
+
+$h=-2$
+
+$$\gamma_Y(-2) = \mathbb{E}[e_t e_{t-2} e_{t-2} e_{t-4}] = \mathbb{E}[e_{t-2}^2 e_t e_{t-4}]$$ thus, $$\gamma_Y(-2) = 0$$
+
+For any other $h$,
+
+$$\mathbb{E}[e_t e_{t-2} e_{t+h} e_{t+h-2}]$$ contains at least one factor that appears only once, and because each $e_i$ has mean $0$, the entire expectation is $0$:
+
+$${\gamma_Y(h) = 0 \quad \text{for all } h \neq 0}$$
+
+Weak stationary,
+
+$\mathbb{E}(Y_t)$ is constant, 0 for all \$t
+
+$\gamma Y(h)$ dependent on lag $h$
+
+thus, $Y_t$ is strictly and weakly stationary
+
+\pagebreak
+
+### Solution 2.
+
+\noindent\rule{\linewidth}{1pt}
+
+Standard ARMA(p,q) form
+
+$$Y_t = \phi_1Y_{t-1} + \phi_2Y_{t-2} + \cdots + \phi_pY_{t-p} + e_t + \theta_1e_{t-1} + \theta_2e_{t-2} + \cdots + \theta_qe_{t-q}$$
+
+$$\text{AR part: } Y_t = 0.5Y_{t-1} - 0.5Y_{t-2} + \cdots \quad\text{then, }\\  p = 2,\ \phi_1 = 0.5,\phi_2 = -0.5$$
+
+$$\text{MA part: } e_t - 0.5e_{t-1} + 0.25e_{t-2} \quad \text{ then, }\\ q = 2,\ \theta_1 = -0.5,\ \theta_2 = 0.25$$ Form check,
+
+$$(1 - 0.5B + 0.5B^2)Y_t = (1 - 0.5B + 0.25B^2)e_t$$ Therefore,
+
+$$
+\text{ARMA}(2,2):\quad \phi_1 = 0.5,\ \phi_2 = -0.5,\ \theta_1 = -0.5,\ \theta_2 = 0.25$$
+
+\pagebreak
+
+### Solution 3.
+
+\noindent
+
+\rule{\linewidth}{1pt}
+
+$E(X)=2, \quad \operatorname{Var}(X)=9, \quad E(Y)=0, \quad \operatorname{Var}(Y)=4, \quad \operatorname{Corr}(X,Y)=0.25$
+
+$$\operatorname{Corr}(X,Y) ={ \operatorname{Cov}(X,Y) \over \sigma_X \sigma_Y}$$
+
+$\sigma(X)=\sqrt 9=3, \sigma(Y)=\sqrt 4=2$
+
+
+
+
+$\operatorname{Cov}(X,Y)= 0.25 \times 3 \times 2 = 1.5$
+
+
+### Solution 3a
+
+$Var(X+Y)$
+
+$\operatorname{Var}(X) + \operatorname{Var}(Y) + 2\,\operatorname{Cov}(X,Y)= 9 + 4 + 2(1.5)= 16$
+
+
+
+### Solution 3b.
+
+$\operatorname{Cov}(X, X+Y)$
+
+$$= \operatorname{Cov}(X, X) + \operatorname{Cov}(X, Y)= \operatorname{Var}(X) + \operatorname{Cov}(X, Y) = 9 + 1.5 = 10.5$$
+
+
+### Solution 3c.
+
+$\operatorname{Corr}(X+Y, X-Y)$
+
+$$= \operatorname{Cov}(X,X) - \operatorname{Cov}(X,Y) + \operatorname{Cov}(Y,X) - \operatorname{Cov}(Y,Y) = \operatorname{Var}(X) - \operatorname{Var}(Y)= 9 - 4 = 5$$
+$$\operatorname{Var}(X+Y)= 16$$
+$$\operatorname{Var}(X-Y) = \operatorname{Var}(X) + \operatorname{Var}(Y) - 2\,\operatorname{Cov}(X,Y)= 9 + 4 - 3 = 10$$
+$$\operatorname{Corr}(X+Y, X-Y)= \frac{\operatorname{Cov}(X+Y, X-Y)}{\sqrt{\operatorname{Var}(X+Y)\,\operatorname{Var}(X-Y)}}\\
+= \frac{5}{\sqrt{16 \times 10}}\\
+= \frac{5}{4\sqrt{10}}\\
+= \frac{\sqrt{10}}{8} \approx 0.395$$
+
+
+${\operatorname{Corr}(X+Y, X-Y) = \dfrac{\sqrt{10}}{8} \approx 0.395.}$
+
+
+
+### Solution 4a.
+
+\noindent\rule{\linewidth}{1pt}
+
+
+AR lags = 2
+MA lags = 1
+
+$$\text{ARMA(2,1)} \quad (\phi_1, \phi_2, \theta_1) = (1, -0.25, -0.5)$$
+$$(1 - \phi_1 B - \phi_2 B^2)Y_t = (1 + \theta_1 B)e_t$$
+So we have,
+$$(1 - B + 0.25B^2)Y_t = (1 - 0.5B)e_t$$
+
+### Solution 4b.
+
+\noindent\rule{\linewidth}{1pt}
+
+
+**Casuality and Stationary**
+
+
+
+The roots of the AR polynomial lie outside the unit circle.
+$\phi(z) = 1 - \phi_1 z - \phi_2 z^2$
+
+$$\phi(z) = 1 - z + 0.25z^2$$
+$\phi(z)=0$
+
+$$0.25z^2 - z + 1 = 0 \quad \Longrightarrow \quad z^2 - 4z + 4 = 0$$
+
+so,
+$$(z - 2)^2 = 0 \quad \Rightarrow \quad z = 2$$
+Since $|z| = 2 > 1$, the AR part satisfies the stationarity condition.
+
+The MA polynomial
+
+
+
+
+\pagebreak
+### Solution 5a.
+
+\noindent\rule{\linewidth}{1pt}
+
+
+$\phi(B) = 1 - 1.1B + 0.18B^2$
+
+
+Examine the roots of:
+
+$$\phi(z) = 1 - 1.1z + 0.18z^2 = 0$$ 
+$$0.18z^2 - 1.1z + 1 = 0$$
+$$z = \frac{1.1 \pm \sqrt{(-1.1)^2 - 4(0.18)(1)}}{2(0.18)} 
+= \frac{1.1 \pm \sqrt{1.21 - 0.72}}{0.36} 
+= \frac{1.1 \pm 0.7}{0.36}$$
+
+
+$$z_1={1.8\over 0.36}=5, z_2={0.4 \over 0.36}\approx 1.111$$
+
+Since both roots satisfy $|z_1|>1$ and $|z_2|>1$, both are greater than 1 in absolute value,  the series is stationary
+
+
+### Solution 5b.
+
+\noindent\rule{\linewidth}{1pt}
+
+For an AR(2) process:
+
+$$Y_t = \phi_1 Y_{t-1} + \phi_2 Y_{t-2} + e_t$$
+
+the theoretical autocorrelation function satisfies the Yule–Walker equations:
+
+$$\rho(h) = \phi_1 \rho(h-1) + \phi_2 \rho(h-2), \quad h \ge 2$$
+$$\rho(0) = 1, \qquad  \rho(1) = \frac{\phi_1}{1 - \phi_2}$$
+
+
+$\phi_1 = 1.1, \; \phi_2 = -0.18$ we have:
+
+
+$$\rho(1) = \frac{1.1}{1 - (-0.18)} = \frac{1.1}{1.18} \approx 0.932$$
+
+Then:
+
+$$\rho(2) = \phi_1 \rho(1) + \phi_2 \rho(0) = 1.1(0.932) - 0.18 = 0.845$$
+
+$$\rho(h) - 1.1\rho(h-1) + 0.18\rho(h-2) = 0$$
+$$
+r^2 - 1.1r + 0.18 = 0,
+$$
+whose roots are:
+$$
+r_1 = 0.9, \qquad r_2 = 0.2.
+$$
+
+Therefore, the general form of the autocorrelation function is:
+$$
+\rho(h) = C_1 (0.9)^h + C_2 (0.2)^h, \qquad h \ge 0.
+$$
+Using the conditions $\rho(0) = 1$ and $(\rho(1) = 0.932,)$ we solve for $(C_1)$ and $(C_2):$
+
+$$C_1 + C_2 = 1$$
+
+$$0.9C_1 + 0.2C_2 = 0.932$$
+which gives 
+$$C_1 = 1.046,\; C_2 = -0.046$$
+
+Thus:
+$$\rho(h) = 1.046(0.9)^h - 0.046(0.2)^h$$
+
+### Solution 6a.
+
+\noindent\rule{\linewidth}{1pt}
+
+
+
+ARMA(1,0)
+
+-Time Series is Stationary	ARMA possible
+
+-ACF	Small lag-1 correlation, then none	AR(1)
+
+-PACF	Sharp cutoff at lag 1	AR(1)
+
+-EACF	Zero region starts at (1,0)	AR(1)
+
+$$Y_t=e_t-\phi_1Y_{t-1}+e_t\ \text{where } e_t\ WN( 0,\sigma^2)$$
+
+
+### Solution 6b.
+
+\noindent\rule{\linewidth}{1pt}
+
+
+
+
+ARMA(0,1)
+
+-Time Series	is Stationary,	ARMA possible
+
+-ACF	Cuts off after lag 1	MA(1)
+
+-PACF	Tails off gradually	MA(1)
+
+-EACF	Triangle starts at (0,1)	MA(1)
+
+$$Y_t=e_t-\phi_1e_{t-1} \text{where } e_t\ WN( 0,\sigma^2)$$
+
+\pagebreak
+
+### Solution 7a.
+
+\noindent\rule{\linewidth}{1pt}
+
+
+
+$$Y_t=0.7324Y_{t-1}+e_t-0.5817e_{t-1}, e_t\ WN(0,1.204)$$
+
+### Solution 7b.
+
+\noindent\rule{\linewidth}{1pt}
+
+The quarterly economic time series is stationary
+
+ARIMA Order (1, 0, 1):
+The second parameter in the ARIMA model, d=0, indicates that no differencing was required to make the series stationary.
+
+
+AR Coefficient $\phi_1=0.7324$ Within Stationary Range:
+For an AR(1) process to be stationary, we require, 0.7324<1, satisfy the condition for stationarity.
+
+No Trend or Seasonality: The problem statement explicitly says the series “appears to exhibit no significant trend or cyclical behavior”, supports that the mean and variance are stable over time.
+
+### Solution 7c.
+
+\noindent\rule{\linewidth}{1pt}
+
+
+The time series is invertible, because the MA(1) coefficient $=−0.5817$ satisfies $\phi_1<1$, the model has a valid and unique invertible representation.
+
+
+

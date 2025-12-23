@@ -1,0 +1,235 @@
+---
+title-block-banner: true
+title-block-style: default
+title: "University of West Florida"
+subtitle: "Time Series Analysis STA 6856 | Professor Dr.Tharindu De Alwis "
+date: 09/12/2025
+date-format: full
+author: "Edwin Quijano"
+description: "Assignment 1"
+format: pdf
+editor: visual
+toc: false
+execute:
+  echo: TRUE
+  warning: FALSE
+  message: FALSE
+---
+
+```{r echo=FALSE}
+# Load Libraries
+
+library(ggplot2)
+library(dplyr)
+library(readr)
+library(lubridate)
+library(scales)
+library(broom)
+library(zoo)
+library(lmtest)
+
+```
+
+### **1. (10 points) dataset - Air Passenger Data: AirPassengers.csv.**
+
+```         
+(a) Import your chosen dataset into R.
+```
+
+```{r}
+dataset <- read.csv("AirPassengers.csv")
+
+head(dataset,10)
+```
+
+```{r echo=FALSE}
+# Accept "YYYY-MM" or "YYYY-MM-DD"
+df <- dataset %>%
+  mutate(
+    p_Month = as.character(Month),
+    p_Month = ifelse(grepl("^\\d{4}-\\d{2}$", p_Month), paste0(p_Month, "-01"), p_Month),
+    p_Month = as.Date(p_Month),
+    n_Passengers = as.numeric(Passengers)
+  ) %>%
+  arrange(p_Month)
+
+if (!inherits(df$Month, "Date")) {
+  # Try year-month first; fall back to as.Date for full dates
+  parsed <- suppressWarnings(ym(df$Month))
+  if (all(!is.na(parsed))) {
+    df$Month <- parsed
+  } else {
+    df$Month <- as.Date(df$Month)
+  }
+}
+
+```
+
+```         
+(b) Construct the time series plot and interpret it.
+```
+
+```{r echo=FALSE}
+p <- ggplot(df, aes(x = Month, y = Passengers)) +
+  #geom_point() +
+  geom_line(alpha = 0.5) +
+  scale_x_date(date_breaks = "2 years", date_labels = "%Y") +
+  labs(
+    title = "International Airline Passengers",
+    x = "Month",
+    y = "Passengers"
+  ) +
+  theme_minimal()
+
+p
+```
+
+#### Trend
+
+```{r echo=FALSE}
+
+if (!inherits(df$Month, "Date")) {
+  parsed <- suppressWarnings(lubridate::ym(df$Month))
+  df$Month <- if (all(!is.na(parsed))) parsed else as.Date(df$Month)
+}
+
+df <- df |> arrange(Month)
+
+# 3) 12-month centered moving average (base R, no extra packages)
+df$MA12 <- as.numeric(stats::filter(df$Passengers, rep(1/12, 12), sides = 2))
+
+# 4) Trend graph: raw line + LOESS smooth + 12m moving average
+p <- ggplot(df, aes(Month, Passengers)) +
+  geom_line(alpha = 0.4, linewidth = 0.5) +
+  geom_smooth(se = FALSE, span = 0.2, method = "loess", linewidth = 1, color = "steelblue") +
+  scale_x_date(date_breaks = "2 years", date_labels = "%Y") +
+  labs(
+    title = "AirPassengers: Trend View",
+    subtitle = "Raw monthly counts (gray), Trend (blue)",
+    x = "Month",
+    y = "Passengers"
+  ) +
+  theme_minimal()
+
+print(p)
+```
+
+Air travel expanded rapidly through the period, with predictable, growing seasonal surges—biggest in summer—suggesting demand was rising and becoming more volatile in absolute terms as the industry scaled.
+
+
+#### Seasonality
+
+```{r echo=FALSE}
+if (!inherits(df$Month, "Date")) {
+  parsed <- suppressWarnings(lubridate::ym(df$Month))
+  df$Month <- if (all(!is.na(parsed))) parsed else as.Date(df$Month)
+}
+
+df <- df |>
+  arrange(Month) |>
+  mutate(
+    Year  = year(Month),
+    MonthNum = month(Month),
+    MonthLab = factor(month(Month, label = TRUE, abbr = TRUE), levels = month.abb)
+  )
+
+p_subseries <- ggplot(df, aes(x = MonthLab, y = Passengers, group = Year)) +
+  geom_line(alpha = 0.6) +
+  geom_point(size = 1) +
+  stat_summary(aes(group = 1), fun = mean, geom = "line", linewidth = 1) +  # monthly mean across years
+  labs(title = "AirPassengers: Seasonal Subseries",
+       subtitle = "Thin lines: yearly paths • Thick line: monthly averages across years",
+       x = "Month", y = "Passengers") +
+  theme_minimal()
+print(p_subseries)
+```
+
+The series is non-stationary: it has a strong upward trend, clear annual seasonality, and increasing variance; a log transform plus first and seasonal differencing would be needed to approximate stationarity.
+
+
+### 2. (10 points) If $Var(X) = Var(Y )$, find $Cov(X + Y, X − Y )$
+
+$$Cov(X + Y, X − Y )=Cov(X,X)−Cov(X,Y)-cov(Y,Y)=Var(X)-Var(Y)=0$$ 
+$$\text {then, } Cov(X+Y,X−Y)=0.$$
+
+### 3.  (15 points) Recall: To show that a process ${Yt}$ is not stationary, try to show that $E(Yt)$ depends on $t$. If this fails, try to show that $Var(Yt)$ depends on $t$. If this fails, show that $γk = Cov(Yt, Yt−k)$ depends on $t$
+
+
+(a) Let $Yt = \sum_{i=1}^t e_t$ where the $e_t$ are $iid$ with $\Xi(e_t) = \mu>0$ and $Var(e_t) = σ^2$. Show that $\text{{Yt}}$ is not stationary.
+
+
+$$E(e_t) = \mu>0$$
+
+$$E{[Y_t]}=E(\sum_{i-1}^t e_t)=\sum_{i-1}^t (e_t)=\sum_{i-1}^t \mu=t\mu$$ Condition fails, $t\mu$ changes with $t$, therefore ${Y_t}$ **is not stationary**
+
+
+
+(b) Let $Yt = \sum_{i=1}^t e_t$ where the $e_t$ are $iid$ with $E(e_t) = 0$ and $Var(e_t) = σ_2$ . Show that $\text{{Yt}}$ is not stationary.
+
+$$E(e_t) = \mu=0$$ $$E{[Y_t]}=\sum_{i-1}^t E(e_t)=\sum_{i-1}^t 0=0$$ Mean is constant, does not depend on $t$
+
+$$Var(Y_t)=(\sum_{i=1}^te_i)=\sum_{i=1}^tVar(e_t)=\sum_{i-1}^t \sigma^2=t\sigma^2$$
+
+Condition fails, $Var(Y_t)$ is dependent on $t$, $Y_t$ **is not stationary**
+
+### 4.(10 points) Suppose Yt = X for all t where E(X) = µ and Var(X) = σ2.
+
+(a) Show that {Yt} is stationary.
+    
+$$E(Y_t)=E(X) =\mu  \text { not dependendt on t }$$
+$$Var(Y_t)=Var(X)=\sigma^2 \text { not dependend on } t$$
+
+
+$$Cov(Y_t, Y_{t-k})=Cov(X,X)=Var(X)=\sigma^2$$
+$$(Y_t) \text { is stationary }$$
+
+
+
+    
+
+(b) Find the autocorrelation function ρk for ${Y_t}$.
+
+$$\gamma_k=Cov(Y_t,Y_t-k)= \sigma^2 \text {, for all }\sigma \geq 0 $$
+$$\rho_k={\gamma_k\over \gamma_0}={\sigma^2\over \sigma^2}=1 \text { for all k } \geq 0  $$
+Every pair is correlated.
+
+
+
+### 5.(15 points) The R output below displays the results of 10 coin flips, where 0 represents Tails and 1 represents Heads.
+
+0 0 0 0 0 0 1 1 0 0
+
+Let the et be iid where et = 1 for Heads and et = −1 for Tails (so change the 0 to a −1 from the given output. That is, e1 = e2 = e3 = e4 = e5 = e6 = −1; e7 = e8 = 1 and e9 = e10 = −1.) Let Yt = Pt t=1 et.
+
+       
+(a) Plot Yt on the vertical axis versus time t on the horizontal axis.
+```{r}
+flips10 <- c(0,0,0,0,0,0,1,1,0,0)
+e10 <- ifelse(flips10 == 1, 1, -1)      
+Y10 <- cumsum(e10)
+
+plot(Y10, type = "l")
+```
+(b) The process {Yt} is a random walk with E(Yt) = 0, as shown in class. Does there seems to be a trend in the plot in (a) or are the Yt scattering about the horizontal axis in a roughly even band?
+
+
+
+Drifts downward, That apparent trend is just random fluctuation; with only 10 flips, long runs of Tails can create a strong-looking drift.
+
+
+(c) Repeat parts (a) and (b) for a 100 flips and provide the plot of Yt versus t.
+
+```{r}
+## (c) Repeat for 100 flips 
+set.seed(42)                            
+flips100 <- rbinom(100, 1, 0.5)
+e100 <- ifelse(flips100 == 1, 1, -1)
+Y100 <- cumsum(e100)
+
+plot(Y100, type = "l")
+```
+
+
+
+
+

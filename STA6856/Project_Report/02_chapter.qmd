@@ -1,0 +1,170 @@
+---
+format: pdf
+editor: visual
+execute: 
+  echo: false
+---
+
+# Data Description
+
+**Summary of the GPI Dataset Structure and Attributes.**
+
+The Global Product Inventory (GPI) dataset is a collection of inventory data selected for use with the intelligent inventory management project. The dataset contains 10,000 entries, with each row representing an individual product and its associated attributes.
+
+![GPI dataset attributes](images/clipboard-3142176523.png){fig-align="left" width="600"}
+
+The dataset includes key attributes such as product identifier, product name, stock transfer date, category, price, inventory quantity, warranty period, manufacturing date, and expiration date. The variables capture essential information on product specifications, inventory status, and associated life cycles.
+
+The dataset also includes supplementary fields such as product dimensions, descriptive tags, and color and size variations, which offer opportunities for advanced feature engineering.
+
+It is worth noting that the dataset is clean and free of missing values. However, it requires a preprocessing that involves parsing and transforming product dimensions, converting date fields to temporal (datetime) objects, and normalizing numerical features. These steps are essential to adequately prepare the dataset for machine learning applications.
+
+One of the primary challenges in the GPI Dataset is the presence of semi-structured fields, such as Product Dimensions, which are stored as text "16x15x15 cm" and must be parsed into separate numerical columns (length, width, height) for proper modeling. Once parsed, the product dimensions feature will be used in the time-series analysis as the temporal-order feature.
+
+## Data Preprocessing
+
+**Parsing and Transforming Raw Features**
+
+During the data preprocessing phase, several raw features were parsed and transformed to enhance their usability for forecasting modeling. The Product Dimensions field, originally stored as a single text string "16x15x15 cm", was split into three separate numerical columns: Length_cm, Width_cm, and Height_cm, enabling precise calculations such as volume estimation. Similarly, the Manufacturing Date and Expiration Date fields were converted from text to datetime format, enabling the creation of time-based features such as Product_Age_Days (the number of days since a product was manufactured) and Shelf_Life_Remaining_Days (the number of days left until expiration). An additional binary feature, Is_Near_Expiry, was engineered to flag products that have 90 days or fewer before expiration, providing critical information for inventory management decisions. These transformations structure the raw data into a more meaningful format, making it better suited for predictive modeling and optimization tasks.
+
+**Encoding Categorical Variables**
+
+During data preprocessing, categorical variables in the GPI Dataset, including Product Name, Product Category, Color, and Size, were transformed using one-hot encoding to make them suitable for modeling. One-hot encoding converts each unique category into a separate binary column, allowing models to interpret categorical data without assuming any ordinal relationship between the categories. For example, a product categorized as a "Laptop" would have the Product Name_Laptop column marked as 1, while all other product name columns would be 0. To prevent redundancy and multicollinearity, the first category from each feature group was dropped using the drop_first=True option. This process ensures that the models can accurately learn from categorical attributes while maintaining the integrity and interpretability of the feature space.
+
+![Transformed Features](images/clipboard-288838336.png){width="600"}
+
+**Scaling and Normalization of Numerical Features.**
+
+During the preprocessing, scaling and normalization were applied to numerical features to ensure that all variables contributed equally during model training. Originally, features like Price, Stock Quantity, Warranty Period, Product Ratings, and the parsed dimensions showed wide and uneven value ranges, which could have led to biased learning where models prioritize features with larger magnitudes. To address this, StandardScaler was used to transform each feature to have a mean of 0 and a standard deviation of 1. As shown in the distribution plots, the original feature values were widely spread, while after scaling, they became centered and standardized, promoting faster convergence and better model stability. This step was essential for preparing the dataset for deep learning and reinforcement learning tasks, where balanced input scales lead to significantly improved performance.
+
+![Data Preprocessing Scaling & Normalization](images/clipboard-3477534301.png){width="400"}
+
+## Exploratory Data Analysis (EDA)
+
+**Statistical Summaries**
+
+Key insights from the dataset’s numerical fields
+
+![Stock Statistical summary](images/clipboard-3673114867.png){width="400"}
+
+![Space Statistical summary](images/clipboard-4047111665.png){width="400"}
+
+![](images/clipboard-3253233062.png){width="400"}
+
+The price distribution in the GPI Dataset appears to be fairly uniform with a slight concentration around the \$250–\$300 range, aligning closely with the dataset’s mean price of \$254.67. The minimum price is just above \$10, while the maximum reaches nearly \$500, indicating a wide pricing spectrum that likely reflects a variety of product types and tiers from low-cost accessories to higher-end electronics or appliances. The spread, confirmed by a high standard deviation of \$142.76, suggests significant variety in product value. There are no extreme skews or heavy clustering at the low or high ends, implying the dataset represents a well-balanced product lineup across multiple pricing levels. This distribution is ideal for training models in price-sensitive tasks like dynamic pricing or demand forecasting, as it includes a robust representation of both budget and premium products.
+
+The stock quantity spread in the GPI dataset shows a wide and even distribution across values ranging from 1 to 100 units, with a mean of approximately 50.65 and a standard deviation of 28.90. This indicates that inventory levels vary significantly across different products, which could reflect differences in demand frequency, shelf life, or supplier restocking policies. The boxplot suggests the presence of a few high-end outliers, where certain products are stocked in very large quantities, potentially due to higher turnover rates or bulk storage strategies. The broad spread also implies that inventory decisions are not uniform, making it essential to segment products for customized replenishment strategies. This variability is particularly useful for training models focused on inventory optimization, as it presents a realistic view of fluctuating stock levels across a diverse product portfolio.
+
+# Methodology
+
+## Prepare Time-Series Object for Modeling
+
+![Daily space usage](images/clipboard-3805015355.png){width="300"}![Daily space usage plot](images/clipboard-712005120.png){width="300"}
+
+Before we could fit the models, we transformed the raw data into usable time series:
+
+-   Calculating space in cubic meters from product dimensions
+
+-   Aggregating both total and category-level space per day
+
+-   Testing for stationarity using the Augmented Dickey–Fuller test
+
+These steps ensured we were providing clean, well-behaved time series to the models.
+
+![Histogram of space used (left) / Space used by category boxplot (right)](images/clipboard-4044425154.png){width="400"}
+
+![](images/clipboard-3919800694.png){width="300"}
+
+Stationarity Testing (ADF Test) confirmed that the total space series is not stationary in levels but becomes stationary after first differencing. This is important because many time series models require stationarity. For categories, we found that three out of four categories were also non-stationary and required differencing. These results helped structured both the SARIMA and VAR models.
+
+![](images/clipboard-1239530187.png){width="300"}![](images/clipboard-1200458284.png){width="300"}
+
+![](images/clipboard-996556745.png){width="300"}![](images/clipboard-793593773.png){width="300"}
+
+As we can see, the ACF of the level series decays slowly, consistent with non-stationarity, while the PACF shows a slowly decreasing pattern across the next several lags. This slow decay is a sign of non-stationarity in the raw data, combined with the ACF behavior, and it confirms the need for differencing.
+
+## SARIMA (p,d,q) (P,D,Q)
+
+$$Φ(𝐵^𝑠)𝜙(𝐵)(1−𝐵)^𝑑 (1−𝐵^𝑠 )^𝐷 𝑦_𝑡=Θ(𝐵^𝑠)𝜃(𝐵)𝜀_𝑡$$
+
+Where:
+
+-   $B$= backshift operator
+
+-   $\phi(𝐵)$= non-seasonal AR
+
+-   $\theta(𝐵)$= non-seasonal MA
+
+-   $\Phi(𝐵\^𝑠)$= seasonal AR
+
+-   $\Theta(𝐵\^𝑠)$= seasonal MA
+
+-   $s$=7days (weekly seasonality)
+
+The SARIMA(0,1,2)(2,0,2)\_7 model was selected because it minimized AIC and passed all residual diagnostics. The 1 indicates first differencing to remove the trend, MA(2)component captures short-term shocks, seasonal AR and MA terms capture the weekly pattern, period 7 specifies that the season repeats every 7 days.
+
+Differencing (d = 1) was required because the series is non-stationary, the ADF test showed the original series fails the stationarity test while the first-differenced series passes strongly; this means the data contains a trend component, and ARIMA modeling requires to difference the series once (𝑑=1) to ensure stationarity.
+
+![SARIMA 60 days Forecast](images/clipboard-3098505754.png){width="400"}
+
+The SARIMA model selected SARIMA(0,1,2)(2,0,2)\_7 performed well, capturing the weekly seasonal pattern, Short-term fluctuations, and Random shocks. The 60-day ahead forecast achieved an RMSE of around 0.62 m³ per day, which is strong given the natural volatility in space usage. The SARIMA forecast showed a clear weekly cycle, with predicted peaks aligning with historical patterns.
+
+## The VAR Model
+
+VAR(2) changes depend on the last two days.
+
+The full model: $$𝛥𝑦_𝑡=𝑐+𝐴_1 𝛥𝑦_(𝑡−1)+𝐴_2 𝛥𝑦_(𝑡−2)+𝜀_𝑡$$ Where:
+
+$𝛥𝑦_𝑡$= vector of differenced category space at time t
+
+$𝑐$= vector of intercept constants
+
+$𝐴_1$= coefficient matrix for lag 1
+
+$𝐴_2$= coefficient matrix for lag 2
+
+$𝜀_𝑡$= vector of multivariate white-noise errors
+
+![](images/clipboard-3089105091.png){width="400"}
+
+![](images/clipboard-3479691253.png){width="600"}
+
+The VAR 30 day forecast for each of the categories was analyzed based on the historical data. Each plot shows how the category will evolve over the next month. Overall, the plots show a rapid stabilization on all four categories. headphones, laptops and smartphones display a moderate fluctuation followed by an stable range. Monitors on the other hand, display an initial high short term instability, a possible indication of erratic demand patterns.
+
+The ARIMA model was used to forecast total stock space over the next 60 days, based on daily aggregation of manufacturing dates. The model captured general trends in inventory levels using historical data. While it provided a quick baseline forecast, ARIMA has several limitations:
+
+-   It assumes linear relationships and struggles with complex patterns or seasonality.
+
+-   It treats the time series as a single variable without accounting for additional features like product category, ratings, or dimensions.
+
+Despite this, the ARIMA forecast gives a starting point for evaluating model behavior and offers a benchmark for more advanced methods. However, it lacks the flexibility to model interactions between product-level attributes and stock behavior.
+
+## LSTM Demand Forecasting
+
+![](images/clipboard-835543991.png){width="400"}
+
+The LSTM forecast, as seen in the plot, demonstrates a nearly flat prediction curve that slightly overestimates actual demand and fails to capture meaningful variations or the final drop in stock quantity indicating underfitting or poor model generalization. Compared to ARIMA, which provided a basic but time-sensitive forecast based solely on past values, LSTM’s result is less responsive to the dynamics in the time series.  In contrast, the SARIMA time-series model, using lag-based features, closely followed the real demand trends and produced more dynamic and accurate predictions.
+
+# Results and Discussion
+
+This project demonstrated the effectiveness of combining advanced machine learning and reinforcement learning techniques for intelligent inventory optimization. The SARIMA model emerged as the most accurate forecasting method, achieving exceptionally low error metrics (MAE: 1.59, RMSE: 9.22, MAPE: 0.00%) when predicting daily stock quantities using lag-based historical features. Compared LSTM, ARIMA consistently produced more reliable, responsive forecasts and showed strong alignment with actual demand patterns in trend visualizations.
+
+In the decision-making phase, a Deep Q-Network (DQN) reinforcement learning agent was trained using a custom inventory environment that simulated real-world cost dynamics. The agent successfully learned to minimize total cost while maximizing service level, outperforming a fixed rule-based policy. Key improvements included higher cumulative rewards (175.4 vs. 121.8), fewer stockouts, and more efficient ordering behavior. The RL policy dynamically adjusted actions based on current stock and demand forecasts, proving its adaptability in uncertain conditions.
+
+Overall, the project confirmed that a hybrid approach leveraging SARIMA for accurate forecasting and reinforcement learning for policy optimization offers a scalable, intelligent solution for modern inventory management. The combination of quantitative evaluation, visual validation, and comparative benchmarking provides strong evidence that this framework can reduce operational costs, improve inventory turnover, and enhance service reliability in data-driven supply chains.
+
+## Limitations
+
+Despite its achievements, the project faced several practical constraints that limited the scope of experimentation and refinement. The most significant limitation was time, which restricted the depth of hyperparameter tuning, advanced feature engineering ( calendar-based seasonality), and the testing of alternative architectures like transformer based models or policy gradient methods. Additionally, technical challenges with compatibility and memory errors in Google Colab and RStudio interrupted model training, restricted visualizations, and forced fallback to simplified configurations. The LSTM model, for instance, could not be fully optimized due to limited TensorFlow support in Colab, leading to underperformance. These limitations meant that model comparisons could not be as exhaustive as originally planned.
+
+## Potential Biases.
+
+Several sources of bias may influence the model outputs and conclusions. First, the dataset used external factors such as promotions, seasonal spikes, or supply chain disruptions, leading to **historical bias** in both forecasting and policy learning. Second, the simulated demand for training the RL agent was based on internal sampling methods rather than real downstream sales data, which introduces **synthetic bias** into the environment.
+
+## Conclusion
+
+Working on this project provided a hands-on, end-to-end experience in integrating machine learning and reinforcement learning for real-world inventory optimization. One of the most valuable lessons was understanding the importance of feature engineering, particularly how historical lag features can transform a time series into a powerful supervised learning problem.
+
+Another key to learning was the complexity of building custom reinforcement learning environments. Designing an environment that realistically simulates stock movements, demand variability, and cost structures required a balance between business logic and code modularity. Although TF-Agents and Gym offered powerful tools, I encountered several technical barriers, especially in Colab and RStudio ranging from package incompatibilities to memory limitations. It taught me to iterate quickly, adapt to simplified models when necessary, and work with the constraints of the environment.
+
+Looking ahead, I see tremendous opportunity to extend this work by incorporating real time data from our location in South America and United States. Future work could integrate external variables like promotions, weather, or supplier, lead times to improve both forecasting and policy learning. I would also like to experiment with more advanced RL methods, such as Actor-Critic or PPO, to support continuous action spaces and longer planning horizons.

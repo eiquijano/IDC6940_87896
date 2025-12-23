@@ -2,9 +2,13 @@ project:
   type: book
   
 book:
-  title: "Capstone Data Science"
+
+  title: "Intelligent Inventory Optimization with Deep Learning and Reinforcement Learning."
+  subtitle: "Capston Project In Data Science IDC-6940 | Professor Dr. Shusen Pu"
   author: "Edwin I. Quijano"
   date: "September 2 2025"
+  date-format: full
+
   chapters:
     - index.qmd
     - 01_cover.qmd
@@ -23,9 +27,13 @@ book:
     
 bibliography: bibliography.bib
 
+
+cover-image: "cover_img.png"
+highlight-style: pygments
 format:
   html:
-    theme: cosmo
+
+    theme: flatly
   pdf:
     documentclass: scrreprt
     

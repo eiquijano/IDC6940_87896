@@ -1,0 +1,48 @@
+---
+format: pdf
+editor: source
+---
+
+# Chapter I {.unnumbered}
+
+## Introduction
+
+This project focuses on understanding and forecasting warehouse space utilization driven by daily stock transfer activity across multiple product categories. Using transactional inventory data from 2023, the analysis converts product-level information such as quantities and physical dimensions, into a consistent measure of space used in cubic meters. This approach moves beyond traditional unit-based inventory analysis and instead centers on physical capacity, which is a critical constraint in warehouse and distribution operations. By aggregating space usage over time and by product category, the project provides visibility into how operational flows translate into real space requirements and how different product groups contribute to overall capacity demand.
+
+To support proactive planning and decision-making, the project applies time series forecasting methods tailored to both aggregate and category-level behavior. Seasonal ARIMA (SARIMA) models are used to capture trends and weekly seasonality in total warehouse space usage, while Vector Autoregression (VAR) models are employed to analyze and forecast the interdependent dynamics among product categories. Together, these models enable short- to medium-term forecasts that reflect both system-wide patterns and category-specific interactions. The resulting framework offers a data-driven foundation for improving warehouse capacity planning, labor scheduling, and inventory flow management, while also establishing a scalable methodology that can be extended with additional data or more advanced forecasting techniques in the future.
+
+### Global Product Inventory Dataset 2025
+
+**Published on Kaggle by Keyush Nisar.**
+
+**Dataset link: https://www.kaggle.com/datasets/keyushnisar/global-product-inventory-dataset-2025**
+
+It was designed to simulate global-level inventory and demand data across multiple product categories, warehouses, and suppliers, for developing forecasting and optimization models.
+
+The area of supply chain management and inventory optimization is critically important because it directly impacts a company's operational efficiency, customer satisfaction, and overall profitability. Poor inventory management can lead to costly stockouts, excess holding costs, product obsolescence, and wasted resources, while agile, data-driven inventory systems ensure that the right products are available at the right time and place. Global markets, where consumer demand can shift rapidly and supply chain disruptions are increasingly common, the ability to forecast accurately and optimize inventory dynamically provides a major competitive advantage. The use of machine learning, deep learning, and reinforcement learning in this area allows businesses to take proactive decisions leading to reduced costs, improved service levels, enhanced sustainability, and stronger market resilience.
+
+### Objective of the Analysis
+
+The first goal is to transform product-level inventory data into meaningful operational insights by converting stock quantities and product dimensions into physical space usage measured in cubic meters. This allows the analysis to examine how warehouse space is consumed over time and across product categories, identify patterns such as weekly seasonality and peak usage periods, and determine which categories contribute most to capacity constraints.
+
+The second goal is to apply appropriate time series forecasting techniques to predict future stock transfers and space requirements at both the aggregate and category levels. By using SARIMA models for total space usage and VAR models for category-level dynamics, the analysis aims to generate accurate short- to medium-term forecasts that capture temporal patterns and cross-category interactions, enabling better decision-making for warehouse capacity management, labor scheduling, and inventory flow optimization
+
+### Literature Review
+
+**Integration of Machine Learning in the Supply Chain for Decision Making: A Systematic Literature Review**
+
+*Authors: Sonia Polo-Triana, Juan Camilo Gutierrez, Juan Leon-Becerra*
+
+The article provides information on how machine learning ML can enhance decision-making across supply chain functions like inventory management, logistics, and transportation. By analyzing 70 articles selected through a rigorous PRISMA aligned process, the authors show how ML integration with traditional and emerging technologies improves operational efficiency.
+
+**E-Commerce Inventory Management System Using Machine Learning Approach**
+
+*Authors: Pramodhini R, Sourav Kumar, Siddharth Bhardwaj, Naman Agrahari, Suyash Pandey, Sunil S. Harakannanavar*
+
+This paper presents a machine learning-based inventory management model for small and medium-sized e-commerce businesses. Using local datasets, models like XGBoost and linear regression were trained for demand forecasting, achieving accuracies of approximately 64% and 82% respectively. The study emphasizes challenges in building inventory systems, proposes a web application for practical use, and explores research gaps such as integration with IoT and blockchain technologies.
+
+**Enhancing Supply Chain Agility and Sustainability through Machine Learning: Optimization Techniques for Logistics and Inventory Management**
+
+*Authors: Vikram Pasupuleti, Bharadwaj Thuraka, Chandra Shikhi Kodete, Saiteja Malisetty*
+
+The study applies advanced ML techniques to improve logistics and inventory management based on data from a multinational retailer. Using algorithms like regression, clustering, and time series analysis, the models achieved notable improvements: a 15% gain in forecasting accuracy, 10% reduction in stock issues, and 95% order fulfillment prediction accuracy.

@@ -1,0 +1,22 @@
+---
+title: "Untitled"
+---
+
+
+```{r}
+
+
+library(tidyverse)
+library(lubridate)
+library(keras3)
+
+```
+
+```{r}
+products <- readr::read_csv("products_02.csv")
+
+glimpse(products)
+
+
+```
+

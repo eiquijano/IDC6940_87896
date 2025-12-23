@@ -1,0 +1,29 @@
+project:
+  type: book
+  
+book:
+  title: "Inventory Management Forecasting"
+  author: "Edwin I. Quijano"
+  container-author: "eiq1@students.uwf.edu"
+  date: "December 10 2025"
+  date-format: full
+
+  chapters:
+    - index.qmd
+    - 02_chapter.qmd
+    - 03_chapter.qmd
+    - 04_chapter.qmd
+    - 05_appendix_1.qmd
+    - 07_references.qmd
+   
+bibliography: bibliography.bib
+
+
+highlight-style: pygments
+format:
+  html:
+    theme: morph
+  pdf:
+    toc: true
+    documentclass: scrreprt
+   

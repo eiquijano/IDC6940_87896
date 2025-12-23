@@ -1,0 +1,16 @@
+---
+format: pdf
+editor: visual
+---
+
+# Chapter IV {.unnumbered}
+
+## Conclusion and discussion.
+
+This analysis set out to understand how warehouse space is used over time and to build a reliable model to forecast future space requirements. Both goals were successfully achieved. First, by transforming product quantities and dimensions into cubic meters, the analysis clearly showed how daily stock transfers translate into real warehouse space usage. The results revealed strong day-to-day variability, clear weekly patterns, and the presence of occasional peak days that place higher demands on warehouse capacity. Category-level analysis further showed that space usage is generally balanced across product categories, but Smartphones and Headphones tend to drive peak space demand. These findings provide practical insight into how space is consumed and which products are most critical for capacity planning.
+
+Second, several forecasting models were fitted and evaluated, and the SARIMA model was identified as the most suitable approach. Diagnostic checks confirmed that the SARIMA model captured both the short-term dynamics and the weekly seasonality present in the data, leaving no significant patterns in the residuals. Compared to ARIMA and ETS, SARIMA produced more accurate and stable forecasts, especially during high-demand periods. This demonstrates that the forecasting goal was met and that the selected model is appropriate for short- to medium-term planning of warehouse space requirements.
+
+Despite these successes, the analysis has some limitations. The dataset covers only one year of data, which restricts the ability to model long-term trends or annual seasonality. In addition, the analysis focuses on stock transfers rather than full on-hand inventory levels, which limits insight into storage duration and turnover. The space calculation is also based on product volume alone and does not account for real-world warehouse constraints such as palletization, stacking rules, or layout inefficiencies.
+
+Future research could address these limitations by incorporating multiple years of data, adding external factors such as promotions or supplier schedules, and integrating real warehouse constraints into the space calculations. More advanced models, suchs as machine learning or hierarchical forecasting approaches, could also be explored to improve accuracy and scalability. Overall, the analysis provides a strong foundation for data-driven warehouse capacity planning and highlights a clear directions for further improvement.

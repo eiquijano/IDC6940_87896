@@ -1,0 +1,42 @@
+---
+title-block-banner: true
+title-block-style: default
+title: "University of West Florida"
+subtitle: "STA 6856 Mid-Term Exam | Professor Dr.Tharindu De Alwis "
+date: 10/17/2025
+date-format: full
+author: "Edwin Quijano"
+description: "Assignment 2"
+format: pdf
+editor: visual
+toc: True
+execute:
+  echo: TRUE
+  warning: FALSE
+  message: FALSE
+---
+
+Owner  Managing Member  Registered Dietitian Nutritionist Name: Isabel A. Quijano, MS, RDN, LDN Role: Sole owner, licensed Medicare-enrolled provider, and clinical lead. Responsibilities:
+
+- Provides all nutrition and medical nutrition therapy services.
+- Ensures compliance with Medicare and HIPAA regulations.
+- Manages business, finances, and official documentation.
+- Supervises and directs the Administrator/Practice Manager.
+
+Administrator  Practice Manager Name: Edwin QUijano Reports to: Owner / Managing Member Responsibilities:
+
+- Manages administrative operations, patient scheduling, and documentation.
+- Supports Medicare billing and claim submissions under supervision.
+- Maintains compliance records and assists with daily office management.
+
+Owner  Managing Member  Registered Dietitian Nutritionist
+
+Administrator  Practice Manager
+
+
+Medicare Compliance Notes
+
+- The Owner/RDN is the Authorized Official responsible for all Medicare documentation.
+- The Administrator may act as the Contact Person in CMS enrollment records.
+- Organizational control and clinical authority reside solely with the Owner/RDN.
+- This chart aligns with CMS-855B and PECOS enrollment requirements.

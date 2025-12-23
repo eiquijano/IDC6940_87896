@@ -59,8 +59,9 @@ You can create tables like so.
 
 You can include figures.
 
-```![This is a figure with a caption](https://upload.wikimedia.org/wikipedia/commons/f/ff/AAAI_Conference.png){width=100%}```
-```
+`![This is a figure with a caption](https://upload.wikimedia.org/wikipedia/commons/f/ff/AAAI_Conference.png){width=100%}`
+
+```         
 
 
 
@@ -81,6 +82,7 @@ You can remove the copyright notice and ensure that your names aren't shown by i
 ```yaml
 draft: false
 ```
+
 when rendering the document in Quarto.
 
 # Conclusion

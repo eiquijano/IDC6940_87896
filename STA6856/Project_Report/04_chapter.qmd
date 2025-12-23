@@ -1,0 +1,10 @@
+---
+format: pdf
+editor: visual
+---
+
+# Chapter 4 {.unnumbered}
+
+Conclusion and discussion.
+
+In this chapter, you will state the conclusion of your analysis or findings. You can discuss whether the goals set up in Chapter 1 meet or not. You can provide the limitations of your analysis and future research directions.
