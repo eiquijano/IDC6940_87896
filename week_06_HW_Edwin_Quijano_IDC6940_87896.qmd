@@ -1,0 +1,125 @@
+---
+title-block-banner: true
+title-block-style: default
+title: "University of West Florida"
+subtitle: "Capston Project In Data Science IDC-6940 | Professor Dr. Shusen Pu"
+date: 10/07/2025
+date-format: full
+author: "Edwin Quijano"
+description: "Literature Review"
+format: pdf
+editor: visual
+toc: false
+---
+
+### Intelligent Inventory Optimization with Deep Learning and Reinforcement Learning.
+
+#### Introduction
+
+Efficient inventory management represents a cornerstone of modern supply chain analytics and one of the most challenging optimization problems in operations research and data science. Classical models such as the Economic Order Quantity (EOQ) and stochastic inventory policies ((s, S) models) have provided mathematical frameworks for determining optimal stock levels. However, these traditional approaches assume demand stationarity and constant lead times, which are often unrealistic in today’s volatile and data-rich market environments. Consequently, the need for adaptive, data-driven forecasting models has grown significantly in both academia and industry.
+
+This project, Capturing Trends for Accurate Forecasting: Intelligent Inventory Optimization with Deep Learning and Reinforcement Learning, aims to address the dual problem of demand forecasting and dynamic replenishment optimization. By integrating deep learning and reinforcement learning methodologies, this study explores how artificial intelligence can be applied to predict demand trends and learn optimal reorder policies under uncertain supply and demand conditions.
+
+The research builds on the work of Pasupuleti et al. (2024), who demonstrated how machine learning can enhance supply chain agility and sustainability through predictive analytics and optimization frameworks. The present project extends those findings by implementing a hybrid model that merges time-series forecasting using Long Short-Term Memory (LSTM) and Convolutional LSTM (CNN-LSTM) architectures with a Deep Q-Network (DQN) reinforcement learning agent for inventory decision-making.
+
+The significance of this work lies in its contribution to data-driven supply chain optimization. From a mathematical and statistical perspective, the project involves modeling stochastic, non-stationary demand using temporal deep learning architectures that minimize forecasting error. From a data science perspective, it develops and evaluates machine learning algorithms capable of generalizing from complex, multivariate datasets to improve predictive accuracy and operational decision-making.
+
+### Objectives and Goals
+
+The main objectives of this research are as follows:
+
+To develop and compare deep learning models (LSTM, CNN-LSTM) for product demand forecasting using the Global Product Inventory Dataset 2025.
+
+To design and train a reinforcement learning agent (DQN) capable of dynamically adjusting reorder policies in response to fluctuations in demand and lead times.
+
+To evaluate and compare the predictive and operational performance of the proposed models using quantitative metrics such as Mean Absolute Error (MAE), Root Mean Squared Error (RMSE), and cost-reduction indices.
+
+To demonstrate how hybrid DL–RL systems outperform traditional statistical forecasting and rule-based inventory control methods in accuracy, adaptability, and cost efficiency.
+
+### Summary of Approach
+
+The proposed framework integrates deep learning for time-series forecasting and reinforcement learning for inventory control. Initially, demand forecasting models are trained using historical product-level data to capture seasonality and trend patterns. The outputs of these forecasting models are then used as environmental inputs for a DQN agent that learns optimal reorder actions through reward-based interactions in a simulated inventory environment. This hybrid system aims to deliver an intelligent, self-learning model that enhances forecasting precision and optimizes inventory replenishment decisions.
+
+### Methods
+
+#### Data Acquisition and Sources
+
+The dataset used in this project is the Global Product Inventory Dataset 2025 (Keyushnisar, 2025) available on Kaggle. It contains over 100,000 observations of product-level inventory and demand records across multiple global warehouses and suppliers. Key features include product identifiers, stock levels, sales quantities, reorder amounts, lead times, and timestamps, enabling time-series analysis.
+
+Prior to modeling, data preprocessing steps will include:
+
+Data Cleaning: Handling missing values and outliers through imputation and winsorization.
+
+Feature Engineering: Creating time-based variables such as rolling averages, lag features, and reorder point estimates.
+
+Normalization: Applying Min-Max scaling and one-hot encoding for categorical variables to optimize model training performance.
+
+Data Source: <https://www.kaggle.com/datasets/keyushnisar/global-product-inventory-dataset-2025>
+
+### Mathematical and Statistical Models
+
+#### 1. Time Series Forecasting Models
+
+The deep learning component employs LSTM and CNN-LSTM architectures to model temporal dependencies and nonlinear demand relationships.
+
+Loss Functions: Mean Absolute Error (MAE) and Root Mean Squared Error (RMSE).
+
+$$MAE={1\over n}\sum_{i=1}^{n}|y_i-\hat{y}_i|$$ $$RMSE = \sqrt{{1\over{n}}\sum_{i=1}^n}(y_i-\hat{y}_i)^2 $$ Baseline comparisons will include ARIMA, Exponential Smoothing, and XGBoost models to establish a statistical benchmark.
+
+#### 2. Reinforcement Learning Model
+
+The decision-making component uses a Deep Q-Network (DQN) to simulate inventory control under uncertainty.
+
+State Space (S): Current stock level, predicted demand, lead time, holding cost, shortage cost.
+
+Action Space (A): Discrete reorder quantities.
+
+Reward Function (R): $$R_t=-(C_h\times H_t+C_s\times S_t)$$ where $C_h$ and $C_s$ represent holding and shortage costs, respectively, and $H_t$ $S_t$ are the respective quantities at time t.
+
+The DQN is trained using experience replay and an ε-greedy exploration policy to balance exploitation and exploration.
+
+#### Experimental Design and Analytical Procedures
+
+1.  Split dataset into training (70%), validation (15%), and testing (15%) subsets.
+
+2.  Train and tune baseline models (ARIMA, XGBoost) for benchmark comparison.
+
+3.  Train deep learning models (LSTM, CNN-LSTM) using TensorFlow and Keras, optimizing hyperparameters via grid search.
+
+4.  Develop a simulated inventory environment for RL training using Stable Baselines3 or TF-Agents.
+
+5.  Evaluate all models based on forecasting metrics (MAE, RMSE) and policy efficiency (cost reduction, service level).
+
+6.  Integrate best-performing forecasting and RL models into a hybrid framework and validate on unseen data.
+
+#### Software and Tools
+
+The following tools will be used throughout the project:
+
+-   Languages: Python and R
+
+-   Libraries: pandas, NumPy, scikit-learn, TensorFlow, Keras, Stable Baselines3, Matplotlib, SQL
+
+-   Environments: Jupyter Notebook, Google Colab
+
+-   Computational Resources: GPU-accelerated cloud runtime for deep learning and RL simulations
+
+#### Ethical Considerations
+
+The dataset used is open-access and anonymized, containing no personal or sensitive information. Ethical standards are maintained through transparent methodology, reproducibility of results, and proper citation of all data sources and research references. Bias minimization is addressed through stratified sampling, feature normalization, and validation across multiple models.
+
+\pagebreak
+
+## References
+
+Bastos, A. da S. T. (2024). Machine learning in digital retail: Demand forecasting for inventory management in a sportswear company (Order No. 31790125) \[Master’s thesis, ProQuest Dissertations & Theses Global\]. https://www.proquest.com/dissertations-theses/machine-learning-digital-retail-demand/docview/3144033974/se-2
+
+Keyushnisar, K. (2025). Global product inventory dataset 2025 \[Data set\]. Kaggle. https://www.kaggle.com/datasets/keyushnisar/global-product-inventory-dataset-2025
+
+Pasupuleti, V., Thuraka, B., Kodete, C. S., & Malisetty, S. (2024). Enhancing supply chain agility and sustainability through machine learning: Optimization techniques for logistics and inventory management. Logistics, 8(3), 73. https://doi.org/10.3390/logistics8030073
+
+Polo-Triana, S., Gutierrez, J. C., & Leon-Becerra, J. (2024). Integration of machine learning in the supply chain for decision making: A systematic literature review. Journal of Industrial Engineering and Management, 17(2), 344. https://doi.org/10.3926/jiem.6403
+
+R, P., Kumar, S., Bhardwaj, S., Agrahari, N., Pandey, S., & Harakannanavar, S. S. (2023). E-commerce inventory management system using machine learning approach. In Proceedings of the 2023 International Conference on Data Science and Network Security (ICDSNS) (pp. 1–7). IEEE. https://doi.org/10.1109/icdsns58469.2023.10245500
+
+Sathish, T., SaiKumar, D., Patil, S., Saravanan, R., Giri, J., & Aly, A. A. (2024). Exponential smoothing method against the gradient boosting machine learning algorithm-based model for materials forecasting to minimize inventory. AIP Advances, 14(6). https://doi.org/10.1063/5.0208491

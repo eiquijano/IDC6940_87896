@@ -1,0 +1,65 @@
+---
+title: "Fraud Detection Starter Project I"
+author: "Edwin Quijano"
+jupyter: python3
+---
+
+# Tell me a time you when you worked with someone who had a different opnion than you and how did you handle it?
+
+S – Situation
+
+While assisting my supervisor, I worked on a project to ***reduce overall job time and excessive drive time*** for a group of 35 field technicians. The goal was to ***improve operational efficiency*** while also reducing fuel use and unnecessary mileage.
+
+T – Task
+
+My role was to analyze technician routes and job duration and propose changes that would reduce travel time and better align technicians to defined service areas. During this process, one technician strongly disagreed with my recommendation to standardize job times and keep technicians assigned to specific geographic areas.
+
+A – Action
+
+I approached the situation collaboratively. I met the technicians to understand his perspective, **he was worried that reduced job time could impact work quality and that fixed service areas might limit flexibility.** I acknowledged his experience in the field and explained that the intent was not to rush work, but to eliminate inefficiencies such as redundant travel and uneven workload distribution. **I shared data showing how excessive drive time was increasing fatigue, fuel consumption, and delays across the team.** We worked together to refine the approach by allowing exceptions for complex jobs and ensuring that quality and **safety standards remained non-negotiable**. This balance helped build trust and showed respect for differing viewpoints.
+
+R – Result
+
+The final plan **reduced average drive time, improved scheduling**, and **lowered fuel usage without compromising job quality**. The technician who initially opposed the idea became more supportive once he saw his concerns reflected in the solution. Overall, the team experienced smoother operations, improved morale, and a more sustainable use of resources.
+
+==============================================================================================
+
+# Describe a time whe you faced a challege at home or in school and how you overcame it?
+
+S – Situation
+
+While working full-time, I was also pursuing my Master’s degree, and during this period my workload at work increased significantly. I was working 10-hour days, six days per week, which created a major challenge in balancing professional responsibilities with academic commitments.
+
+T – Task
+
+My goal was to maintain high performance at work while continuing to make steady progress toward my degree—without sacrificing the quality of my work, my academic results, or my well-being.
+
+A – Action
+
+**I addressed this challenge by becoming highly intentional with time management and prioritization.** I created a **structured weekly schedule** that accounted for work hours, study time, and recovery. I broke academic tasks into smaller milestones and planned coursework well in advance to avoid last-minute pressure. I also communicated proactively with my professors and work supervisors when deadlines overlapped, ensuring expectations were clear and realistic. Most importantly, I **focused on working efficiently rather than longer, eliminating distractions** and using data-driven planning to track progress. This approach helped me sustain performance over an extended period, not just in the short term.
+
+R – Result
+
+As a result, I successfully managed the increased workload while continuing my Master’s program, meeting work expectations and staying on track academically. The experience strengthened my resilience, discipline, and ability to operate under pressure—skills I continue to apply today when balancing complex projects and competing priorities.
+
+# why are you interested in working at shell and how do you se yourself contributing to our mission?
+
+i am interested in working at Shell because of its **commitment to delivering reliable energy** while **actively advancing sustainability through innovation and data-driven decision-making**. **I see myself contributing by working across teams to analyze data**, **optimize operations**, and turn insights into practical solutions that support both performance today and Shell’s long-term energy transition goals.
+
+# give an example of a time when you led project and influenced others?
+
+S – Situation
+
+In a previous role, I assisted my supervisor on a project aimed at improving efficiency f**or a group of 35 field technicians** by reducing excessive drive time and improving job scheduling. **While I didn’t have formal authority over the technicians, the project required support from the field to succeed.**
+
+T – Task
+
+**My responsibility was to lead the analysis** and **rollout of the proposed changes**, **influence technicians and supervisors to adopt the new approach**, and ensure that efficiency gains did not compromise safety or work quality.
+
+A – Action
+
+**I led the project by first using data to identify inefficiencies in routing, job duration, and geographic coverage**. I then facilitated discussions with supervisors and technicians to explain the purpose of the changes and listen to concerns. To influence others, I focused on shared goals—reducing fatigue, improving work-life balance, and lowering fuel usage—rather than just productivity targets. I incorporated field feedback by allowing flexibility for complex jobs and piloting the changes with a smaller group before scaling. This collaborative approach helped build trust and ownership across the team.
+
+R – Result
+
+The project resulted in reduced average drive time, more balanced workloads, and improved scheduling efficiency across all 35 technicians. **Adoption was high because technicians felt heard, and leadership recognized the project as a sustainable improvement.** The experience reinforced my ability to lead initiatives, influence without authority, and deliver results through collaboration.
